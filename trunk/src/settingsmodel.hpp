@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __fgcom_settingsmodel_hpp__
-#define __fgcom_settingsmodel_hpp__
+#ifndef __fgcomgui_settingsmodel_hpp__
+#define __fgcomgui_settingsmodel_hpp__
 
 #include "fgcomgui.hpp"
 #include <QString>
@@ -44,5 +44,5 @@ namespace FGComGui {
 	};
 
 } // namespace FGComGui
-#endif // __fgcom_settingsmodel_hpp__
+#endif // __fgcomgui_settingsmodel_hpp__
 
