@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __fgcom_appviewcontroller_hpp__
-#define __fgcom_appviewcontroller_hpp__
+#ifndef __fgcomgui_appviewcontroller_hpp__
+#define __fgcomgui_appviewcontroller_hpp__
 
 #include "fgcomgui.hpp"
 
@@ -65,5 +65,5 @@ namespace FGComGui {
 	};
 
 } // namespace FGComGui
-#endif // __fgcom_appviewcontroller_hpp__
+#endif // __fgcomgui_appviewcontroller_hpp__
 
