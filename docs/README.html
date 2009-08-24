@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+	<head>
+		<title>FGCom, FGComGui and FlightGear</title>
+		<style type="text/css">
+			body {
+				background-color: #dedede;
+			}
+			div.container {
+				text-align: center;
+			}
+			div.content {
+				margin-left: auto;
+				margin-right: auto;
+				width: 70%;
+				background-color: #efefef;
+				border: 1px solid black;
+				text-align: left;
+				padding: 10px;
+			}
+			h1.title {
+				text-align: center;
+			}
+			hr.sep {
+				border: 1px solid black;
+				width: 95%;
+			}
+			div.section {
+				margin: 0px;
+				padding: 0px;
+			}
+			div.sectionbody {
+				margin-left: 30px;
+				padding: 0px;
+			}
+			h2 {
+				margin-top: 25px;
+				margin-bottom: 5px;
+			}
+			p {
+				margin: 0px;
+			}
+			img {
+				margin: 15px;
+			}
+			div.links {
+				text-align: center;
+				margin-left: auto;
+				margin-right: auto;
+				width: 70%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="content">
+				<div class="links">
+					<p>
+						<a href="#Background">Background</a> |
+						<a href="#FGComGui">FGComGui</a> |
+						<a href="#FlightGear">FlightGear</a>
+					</p>
+				</div>
+
+				<h1 class="title">FGCom, FGComGui, and FlightGear</h1>
+				<hr class="sep" />
+
+				<div class="section">
+					<a name="Background"></a>
+					<h2>Background</h2>
+					<div class="sectionbody">
+						<p>FGCom is a virtual radio software built on top of voip using Asterisk.
+						FGCom and FlightGear are two completely independant programs, but they work together
+						to bring realistic radio communication your FlightGear session. Using FlightGear's
+						generic protocol framework FGCom is able to receive information about your flightgear
+						session, such as when you keyed the mic to talk and your position on earth.
+						<br /><br />
+						FGCom is currently implemented as a command line only program, it has no graphical interface,
+					   	it must be started and configured from the shell window. While this is not a bad thing,
+						some find it difficult to understand or unfriendly to use. FGComGui attempts to change this by 
+						creating a simple GUI frontend to FGCom, making usage a simple point and click operation.</p>
+					</div>
+				</div>
+
+				<div class="section">
+					<a name="FGComGui"></a>
+					<h2>The FGComGui window</h2>
+					<div class="sectionbody">
+						<img src="images/fgcomgui.png" />
+						<h3>Settings can only be modifed before fgcom is started.</h3>
+						<ol type="A">
+							<li>Your standard file menu. Currently it contains only one item, to exit the application</li>
+							<li>There are two modes, the normal mode used with flightgear, and a test mode. In the test
+							mode everything you say will be echoed back to you, allowing you to check that everything is
+							working and volumes are good.</li>
+							<li>Here you can enter the name or full path to the fgcom executable. Pressing the button to
+						   	the right will open a file browser. This does not normally need to be changed.</li>
+							<li>Slider to adjust your input(recording) volume</li>
+							<li>Slider to adjust your output(playback) volume</li>
+							<li>Start button, pressing this to start fgcom</li>
+							<li>Stop button, press this to stop fgcom</li>
+							<li>Messages from fgcom will be displayed here</li>
+						</ol>
+						<br />
+						<p>FGComGui will display an icon in the system tray. Closing the window will not exit the application,
+						but hide it instead. You can show/hide the window by clicking the tray icon. To exit the application
+						use the File menu, or right click the tray icon and select Quit.</p>
+					</div>
+				</div>
+
+				<div class="section">
+					<a name="FlightGear"></a>
+					<h2>Configuring FlightGear</h2>
+					<div class="sectionbody">
+						<p>To do anything useful FGCom needs information from FlightGear, such as position, radio frequency,
+						and when you keyed the mic. To get this information FGCom uses FlightGear's generic protocol framework, 
+						which we need to setup. This is a simple procedure, and only needs to be done once.<p>
+						<br />
+						<p>Start by opening the FlightGear wizard(fgrun). On the fourth page of the wizard, you will see a button
+						marked advanced like below.</p>
+						
+						<img src="images/fgwizard_advanced.png" />
+
+						<p>Pressing the advanced button will open a new window. In the list to the left of this window, select
+						Input/Output. Press the New button to add a new entry, and then configure the options to match the
+					   	image below. When finished, press Ok.</p>
+
+						<img src="images/fgwizard_generic_fgcom.png" />
+
+						<p>That's all that needs to be configured. Now when FlightGear and FGCom are running, they will be able
+						to communicate with each other. Tuning your radio in FlightGear will set the frequency for FGCom, and
+						pressing the push-to-talk key(default is spacebar), FGCom will transmit what you say on that frequency. It 
+						does not matter what order FlightGear and FGCom are started, as long as they are both running. Enjoy!</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>
+
