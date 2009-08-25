@@ -77,11 +77,11 @@ namespace FGComGui {
 		m_input_volume_slider->setTickPosition(QSlider::TicksBelow);
 		m_input_volume_slider->setToolTip("Adjust input(recording) volume.");
 
-		connect(m_mode_combo, SIGNAL(activated(int)), this, SLOT(mode_change_handler(int)));
-		connect(m_path_edit, SIGNAL(textChanged(const QString&)), this, SLOT(path_change_handler(const QString&)));
-		connect(m_path_button, SIGNAL(clicked()), this, SLOT(fgcom_path_browser()));
-		connect(m_output_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(output_volume_changed_handler(int)));
-		connect(m_input_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(input_volume_change_handler(int)));
+		connect(m_mode_combo, SIGNAL(activated(int)), this, SLOT(handle_mode_change(int)));
+		connect(m_path_edit, SIGNAL(textChanged(const QString&)), this, SLOT(handle_path_change(const QString&)));
+		connect(m_path_button, SIGNAL(clicked()), this, SLOT(handle_path_browser()));
+		connect(m_output_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(handle_output_volume_change(int)));
+		connect(m_input_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(handle_input_volume_change(int)));
 	}	
 
 	SettingsView::~SettingsView()
@@ -119,7 +119,7 @@ namespace FGComGui {
 		m_output_volume_slider->setValue(v);
 	}
 
-	void SettingsView::mode_change_handler(int index)
+	void SettingsView::handle_mode_change(int index)
 	{
 		switch (index) {
 			case 0:
@@ -133,22 +133,22 @@ namespace FGComGui {
 		}
 	}
 
-	void SettingsView::path_change_handler(const QString& path)
+	void SettingsView::handle_path_change(const QString& path)
 	{
 		emit path_changed(path);
 	}
 
-	void SettingsView::input_volume_change_handler(int volume)
+	void SettingsView::handle_input_volume_change(int volume)
 	{
 		emit input_volume_changed( static_cast<float>(volume) / 100.0 );
 	}
 
-	void SettingsView::output_volume_changed_handler(int volume)
+	void SettingsView::handle_output_volume_change(int volume)
 	{
 		emit output_volume_changed( static_cast<float>(volume) / 100.0 );
 	}
 
-	void SettingsView::fgcom_path_browser()
+	void SettingsView::handle_path_browser()
 	{
 		QString filename = QFileDialog::getOpenFileName(this, "Select fgcom executable",
 #if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_LINUX
