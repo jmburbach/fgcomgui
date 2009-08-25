@@ -49,11 +49,11 @@ namespace FGComGui {
 			void output_volume_changed(float value);
 
 		private slots:
-			void mode_change_handler(int index);
-			void path_change_handler(const QString& text);
-			void input_volume_change_handler(int volume);
-			void output_volume_changed_handler(int volume);		
-			void fgcom_path_browser();
+			void handle_mode_change(int index);
+			void handle_path_change(const QString& text);
+			void handle_input_volume_change(int volume);
+			void handle_output_volume_change(int volume);		
+			void handle_path_browser();
 
 		private:
 			QComboBox* m_mode_combo;
