@@ -82,6 +82,11 @@ namespace FGComGui {
 		connect(m_path_button, SIGNAL(clicked()), this, SLOT(handle_path_browser()));
 		connect(m_output_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(handle_output_volume_change(int)));
 		connect(m_input_volume_slider, SIGNAL(valueChanged(int)), this, SLOT(handle_input_volume_change(int)));
+
+		setTabOrder(m_mode_combo, m_path_edit);
+		setTabOrder(m_path_edit, m_path_button);
+		setTabOrder(m_path_button, m_input_volume_slider);
+		setTabOrder(m_input_volume_slider, m_output_volume_slider);
 	}	
 
 	SettingsView::~SettingsView()

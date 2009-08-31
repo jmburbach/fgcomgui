@@ -18,6 +18,9 @@
 #include "settingsmodel.hpp"
 #include "settingsview.hpp"
 
+#include <iostream>
+
+#include <QTimer>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QFrame>
@@ -29,57 +32,71 @@
 #include <QCloseEvent>
 #include <QProcess>
 #include <QTextEdit>
+#include <QStatusBar>
+#include <QKeySequence>
+#include <QMessageBox>
 
 
 namespace FGComGui {
 
 	AppViewController::AppViewController()
 		: QMainWindow(0)
-		, m_model(new SettingsModel)
-		, m_settings_view(new SettingsView(this))
-		, m_start_button(new QPushButton("Start", this))
-		, m_stop_button(new QPushButton("Stop", this))
-		, m_process_output(new QTextEdit(this))
-		, m_systray(new QSystemTrayIcon(this))
-		, m_process(new QProcess(this))
+		, m_model(0)
+		, m_settings_view(0)
+		, m_start_button(0)
+		, m_stop_button(0)
+		, m_process_output(0)
+		, m_systray(0)
+		, m_process(0)
+		, m_file_menu(0)
+		, m_systray_menu(0)
+		, m_quit_action(0)
+		, m_start_action(0)
+		, m_stop_action(0)
+		, m_show_hide_action(0)
 	{
-		QIcon icon(":images/appicon.png");
-
 		resize(600, 400);
 		setWindowTitle("FGCom Gui");
-		setWindowIcon(icon);
-
-		QMenu* file_menu = menuBar()->addMenu("&File");
-		file_menu->addAction("&Quit", qApp, SLOT(quit()));
+		setWindowIcon(QIcon(":images/appicon.png"));
 		
+		setup_actions();
+		setup_menus();
+		setup_systray();
+		setup_process();
 		statusBar();
-
+		
 		QWidget* widget = new QWidget(this);
 		QVBoxLayout* layout = new QVBoxLayout;
 		widget->setLayout(layout);
 		setCentralWidget(widget);
 
+		m_model = new SettingsModel;
+
+		m_settings_view = new SettingsView(this);		
 		m_settings_view->set_mode(m_model->get_mode());
 		m_settings_view->set_path(m_model->get_path());
 		m_settings_view->set_input_volume(m_model->get_input_volume());
 		m_settings_view->set_output_volume(m_model->get_output_volume());
 		layout->addWidget(m_settings_view);
+		
+		m_start_button = new QPushButton("Start", this);
+		m_start_button->setToolTip("start fgcom");
+		connect(m_start_button, SIGNAL(clicked()),
+				m_start_action, SLOT(trigger()));
 
+		m_stop_button = new QPushButton("Stop", this);
+		m_stop_button->setToolTip("stop fgcom");
+		connect(m_stop_button, SIGNAL(clicked()),
+				m_stop_action, SLOT(trigger()));
+		
 		QHBoxLayout* button_layout = new QHBoxLayout;
 		button_layout->addWidget(m_start_button);
 		button_layout->addWidget(m_stop_button);
 		layout->addLayout(button_layout);
 
-		m_start_button->setToolTip("start fgcom");
-		m_stop_button->setToolTip("stop fgcom");
-
+		m_process_output = new QTextEdit(this);
 		m_process_output->setReadOnly(true);
 		layout->addWidget(m_process_output);
-		
-		m_systray->setIcon(icon);
-		m_systray->setContextMenu(file_menu);
-		m_systray->setToolTip("FGCom Gui");
-		m_systray->show();
 
 		connect(m_settings_view, SIGNAL(mode_changed(RunMode)),
 			   	this, SLOT(handle_mode_change(RunMode)));
@@ -89,32 +106,52 @@ namespace FGComGui {
 				this, SLOT(handle_input_volume_change(float)));
 		connect(m_settings_view, SIGNAL(output_volume_changed(float)),
 				this, SLOT(handle_output_volume_change(float)));
-		connect(m_systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-				this, SLOT(handle_system_tray_activation(QSystemTrayIcon::ActivationReason)));
-		connect(m_start_button, SIGNAL(clicked()),
-				this, SLOT(handle_start_request()));
-		connect(m_stop_button, SIGNAL(clicked()),
-				this, SLOT(handle_stop_request()));
-		connect(m_process, SIGNAL(stateChanged(QProcess::ProcessState)),
-				this, SLOT(handle_process_state_change(QProcess::ProcessState)));
-		connect(m_process, SIGNAL(readyRead()),
-				this, SLOT(handle_process_output()));
-		connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-				this, SLOT(handle_process_finished(int, QProcess::ExitStatus)));
-		connect(m_process, SIGNAL(error(QProcess::ProcessError)),
-				this, SLOT(handle_process_error(QProcess::ProcessError)));
+
+		setTabOrder(m_settings_view, m_start_button);
+		setTabOrder(m_start_button, m_stop_button);
+		setTabOrder(m_stop_button, m_process_output);
+
+		m_start_button->setFocus(Qt::OtherFocusReason);
+		m_stop_button->setEnabled(false);
+		m_stop_action->setEnabled(false);
 	}
 
 	AppViewController::~AppViewController()
 	{
+		m_process->kill();
+		m_process->waitForFinished();
 		delete m_model;
 	}
 
 	void AppViewController::closeEvent(QCloseEvent* event)
 	{
-		hide();
+#if FGCOM_GUI_PLATFORM ==  FGCOM_GUI_PLATFORM_LINUX
 		event->ignore();
-		m_systray->showMessage("FGComGui", "FGComGui has been hidden to the system tray");
+		m_show_hide_action->trigger();
+		m_systray->showMessage("FGComGui", "FGComGui will continue running in the system tray...");
+#else
+		QMainWindow::closeEvent(event);
+#endif
+	}
+
+	void AppViewController::changeEvent(QEvent* event)
+	{
+#if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
+		if (event->type() == QEvent::WindowStateChange) {
+			QWindowStateChangeEvent* ce = static_cast<QWindowStateChangeEvent*>(event);
+			bool was_minimized = ce->oldState() & Qt::WindowMinimized;
+			bool is_minimized = windowState() & Qt::WindowMinimized;
+			if (!was_minimized && is_minimized) {
+				event->ignore();
+				m_systray->showMessage("FGComGui", "FGComGui was minimized to the notification area...");
+				
+				// doesn't work properly if called directly...
+				QTimer::singleShot(10, m_show_hide_action, SLOT(trigger()));
+			}
+		}
+#else
+		QMainWindow::changeEvent(event);
+#endif
 	}
 
 	void AppViewController::handle_mode_change(RunMode mode)
@@ -140,14 +177,7 @@ namespace FGComGui {
 	void AppViewController::handle_system_tray_activation(QSystemTrayIcon::ActivationReason reason)
 	{
 		if (reason == QSystemTrayIcon::Trigger) {
-			if (isVisible()) {
-				m_savedPos = pos();
-				hide();
-			}
-			else {
-				show();
-				move(m_savedPos);
-			}
+			m_show_hide_action->trigger();
 		}
 	}
 
@@ -163,12 +193,7 @@ namespace FGComGui {
 		if (m_model->get_mode() == RM_TEST) 
 			args << "-f910";
 
-		// merge stderr with stdout
-		m_process->setProcessChannelMode(QProcess::MergedChannels);
-		m_process->setReadChannel(QProcess::StandardOutput);
-		
 		m_process->start(cmd, args);
-
 		m_process->closeWriteChannel();
 		m_process_output->clear();
 	}
@@ -183,15 +208,22 @@ namespace FGComGui {
 	{
 		switch (state) {
 			case QProcess::Starting:
-			case QProcess::Running:
 				m_settings_view->setEnabled(false);
 				m_start_button->setEnabled(false);
+				m_start_action->setEnabled(false);
 				m_stop_button->setEnabled(true);
+				m_stop_action->setEnabled(true);
+				statusBar()->showMessage("fgcom is starting", 3000);
+				break;
+			case QProcess::Running:
+				statusBar()->showMessage("fgcom is running", 3000);
 				break;
 			case QProcess::NotRunning:
 				m_settings_view->setEnabled(true);
 				m_start_button->setEnabled(true);
+				m_start_action->setEnabled(true);
 				m_stop_button->setEnabled(false);
+				m_stop_action->setEnabled(false);
 				break;
 		}
 	}
@@ -207,8 +239,6 @@ namespace FGComGui {
 
 	void AppViewController::handle_process_finished(int code, QProcess::ExitStatus status)
 	{
-		m_process_output->append(">> process finished with code: " + QString::number(code) + '\n');
-		m_process_output->moveCursor(QTextCursor::End);
 	}
 
 	void AppViewController::handle_process_error(QProcess::ProcessError error)
@@ -231,6 +261,104 @@ namespace FGComGui {
 
 		m_process_output->append(message + '\n');
 		m_process_output->moveCursor(QTextCursor::End);
+	}
+
+	void AppViewController::handle_show_hide()
+	{
+		if (isVisible()) {
+			hide();
+			m_savedPos = pos();
+		}
+		else {
+			show();
+			setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+			move(m_savedPos);
+		}
+	}
+
+	void AppViewController::setup_actions()
+	{
+		m_quit_action = new QAction("&Quit", this);
+		m_quit_action->setShortcut(QKeySequence("Ctrl+Q"));
+		connect(m_quit_action, SIGNAL(triggered()),
+				this, SLOT(handle_quit_request()));
+
+		m_start_action = new QAction("Start", this);
+		connect(m_start_action, SIGNAL(triggered()),
+				this, SLOT(handle_start_request()));
+
+		m_stop_action = new QAction("Stop", this);
+		connect(m_stop_action, SIGNAL(triggered()),
+				this, SLOT(handle_stop_request()));
+
+		m_show_hide_action = new QAction("Show/Hide", this);
+		connect(m_show_hide_action, SIGNAL(triggered()),
+				this, SLOT(handle_show_hide()));
+	}
+
+	void AppViewController::setup_menus()
+	{
+		m_file_menu = menuBar()->addMenu("&File");
+		m_file_menu->addSeparator();
+		m_file_menu->addAction(m_quit_action);
+	}
+
+	void AppViewController::setup_systray()
+	{
+		QIcon appicon(":images/appicon.png");
+
+		m_systray_menu = new QMenu("FGComGui", this);
+		m_systray_menu->setIcon(appicon);
+		m_systray_menu->addAction(m_show_hide_action);
+		m_systray_menu->addAction(m_start_action);
+		m_systray_menu->addAction(m_stop_action);
+		m_systray_menu->addSeparator();
+		m_systray_menu->addAction(m_quit_action);
+
+		m_systray = new QSystemTrayIcon(this);
+		m_systray->setIcon(appicon);
+		m_systray->setToolTip("FGComGui");
+		m_systray->setContextMenu(m_systray_menu);
+		m_systray->show();
+		
+		connect(m_systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+				this, SLOT(handle_system_tray_activation(QSystemTrayIcon::ActivationReason)));
+	}
+
+	void AppViewController::setup_process()
+	{
+		m_process = new QProcess(this);
+		m_process->setProcessChannelMode(QProcess::MergedChannels);
+		m_process->setReadChannel(QProcess::StandardOutput);
+		
+		connect(m_process, SIGNAL(stateChanged(QProcess::ProcessState)),
+				this, SLOT(handle_process_state_change(QProcess::ProcessState)));
+		connect(m_process, SIGNAL(readyRead()),
+				this, SLOT(handle_process_output()));
+		connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
+				this, SLOT(handle_process_finished(int, QProcess::ExitStatus)));
+		connect(m_process, SIGNAL(error(QProcess::ProcessError)),
+				this, SLOT(handle_process_error(QProcess::ProcessError)));
+	}
+
+	void AppViewController::handle_quit_request()
+	{
+		QProcess::ProcessState state = m_process->state();
+		if (state == QProcess::Running || state == QProcess::Starting) {
+			QMessageBox query;
+			query.setWindowTitle("FGComGui");
+			query.setText("FGCom is running.");
+			query.setInformativeText("Are you sure you want to quit?");
+			query.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+			query.setDefaultButton(QMessageBox::Yes);
+			if (query.exec() == QMessageBox::Yes) {
+				handle_stop_request();
+				qApp->quit();
+			}
+		}
+		else {
+			qApp->quit();
+		}
 	}
 
 } // namespace FGComGui
