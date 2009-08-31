@@ -25,6 +25,8 @@
 
 class QPushButton;
 class QTextEdit;
+class QAction;
+class QMenu;
 
 
 namespace FGComGui {
@@ -50,9 +52,17 @@ namespace FGComGui {
 			void handle_process_output();
 			void handle_process_finished(int code, QProcess::ExitStatus status);
 			void handle_process_error(QProcess::ProcessError error);
+			void handle_show_hide();
+			void handle_quit_request();
 
-		private:			
+		private:
+			void setup_actions();
+			void setup_menus();
+			void setup_systray();
+			void setup_process();
+			
 			void closeEvent(QCloseEvent* event);
+			void changeEvent(QEvent* event); 
 
 			SettingsModel* m_model;
 			SettingsView* m_settings_view;
@@ -62,6 +72,14 @@ namespace FGComGui {
 			QSystemTrayIcon* m_systray;
 			QProcess* m_process;
 			QPoint m_savedPos;
+
+			QMenu* m_file_menu;
+			QMenu* m_systray_menu;
+
+			QAction* m_quit_action;
+			QAction* m_start_action;
+			QAction* m_stop_action;
+			QAction* m_show_hide_action;
 	};
 
 } // namespace FGComGui
