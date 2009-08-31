@@ -346,12 +346,13 @@ namespace FGComGui {
 		QProcess::ProcessState state = m_process->state();
 		if (state == QProcess::Running || state == QProcess::Starting) {
 			QMessageBox query;
-			query.setWindowTitle("FGComGui");
+			query.setWindowTitle("FGCom Gui - Quit?");
 			query.setText("FGCom is running.");
 			query.setInformativeText("Are you sure you want to quit?");
 			query.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
 			query.setDefaultButton(QMessageBox::Yes);
-			if (query.exec() == QMessageBox::Yes) {
+			int rv = query.exec();
+			if (rv == QMessageBox::Yes) {
 				handle_stop_request();
 				qApp->quit();
 			}
