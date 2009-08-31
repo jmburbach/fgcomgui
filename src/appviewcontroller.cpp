@@ -130,7 +130,8 @@ namespace FGComGui {
 		m_show_hide_action->trigger();
 		m_systray->showMessage("FGComGui", "FGComGui will continue running in the system tray...");
 #else
-		QMainWindow::closeEvent(event);
+		event->ignore();
+		m_quit_action->trigger();
 #endif
 	}
 
@@ -346,7 +347,7 @@ namespace FGComGui {
 		QProcess::ProcessState state = m_process->state();
 		if (state == QProcess::Running || state == QProcess::Starting) {
 			QMessageBox query;
-			query.setWindowTitle("FGCom Gui - Quit?");
+			query.setWindowTitle("FGComGui?");
 			query.setText("FGCom is running.");
 			query.setInformativeText("Are you sure you want to quit?");
 			query.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
