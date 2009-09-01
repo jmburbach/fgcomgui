@@ -35,7 +35,7 @@ sources = [
 	"linux/build/settingsview.cpp",
 	"linux/build/appviewcontroller.cpp",
 	"linux/build/settingsmodel.cpp",
-	"linux/build/resources.cpp"
+	"linux/build/qt_resources.cpp"
 ]
 
 moc_headers = [
@@ -46,7 +46,7 @@ moc_headers = [
 for header in moc_headers:
 	env.MOC(header + ".moc", header)
 
-env.RCC("linux/build/resources.cpp", "#/resources/resources.qrc")
+env.RCC("linux/build/qt_resources.cpp", "#/resources/qt_resources.qrc")
 
 env.Program("linux/FGComGui", sources)
 

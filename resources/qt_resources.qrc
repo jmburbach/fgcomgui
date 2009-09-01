@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 	<qresource>
-		<file>images/appicon.png</file>
+		<file>images/fgcomgui_22x22.png</file>
 	</qresource>
 </RCC>
 
