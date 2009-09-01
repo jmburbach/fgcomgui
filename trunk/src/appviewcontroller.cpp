@@ -57,7 +57,7 @@ namespace FGComGui {
 	{
 		resize(600, 400);
 		setWindowTitle("FGCom Gui");
-		setWindowIcon(QIcon(":images/appicon.png"));
+		setWindowIcon(QIcon(":images/fgcomgui_22x22.png"));
 		
 		setup_actions();
 		setup_menus();
@@ -306,7 +306,7 @@ namespace FGComGui {
 
 	void AppViewController::setup_systray()
 	{
-		QIcon appicon(":images/appicon.png");
+		QIcon appicon(":images/fgcomgui_22x22.png");
 
 		m_systray_menu = new QMenu("FGComGui", this);
 		m_systray_menu->setIcon(appicon);
