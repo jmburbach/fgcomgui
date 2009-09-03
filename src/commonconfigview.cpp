@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "commonsettingsview.hpp"
+#include "commonconfigview.hpp"
 #include "model.hpp"
 
 #include <QComboBox>
@@ -29,7 +29,7 @@
 
 namespace FGComGui {
 
-	CommonSettingsView::CommonSettingsView(QWidget* parent)
+	CommonConfigView::CommonConfigView(QWidget* parent)
 		: QWidget(parent)
 		, m_mode_combo(new QComboBox(this))
 		, m_input_volume_slider(new QSlider(Qt::Horizontal, this))
@@ -99,11 +99,11 @@ namespace FGComGui {
 				&m, SLOT(set_fgcom_output_volume(float)));
 	}
 
-	CommonSettingsView::~CommonSettingsView()
+	CommonConfigView::~CommonConfigView()
 	{
 	}
 
-	void CommonSettingsView::set_fgcom_mode(RunMode mode)
+	void CommonConfigView::set_fgcom_mode(RunMode mode)
 	{
 		switch (mode) {
 			case RM_NORMAL:
@@ -115,35 +115,35 @@ namespace FGComGui {
 		}
 	}
 
-	void CommonSettingsView::set_fgcom_input_volume(float volume)
+	void CommonConfigView::set_fgcom_input_volume(float volume)
 	{
 		int v = static_cast<int>(100 * volume);
 		m_input_volume_slider->setValue(v);
 	}
 
-	void CommonSettingsView::set_fgcom_output_volume(float volume)
+	void CommonConfigView::set_fgcom_output_volume(float volume)
 	{
 		int v = static_cast<int>(100 * volume);
 		m_output_volume_slider->setValue(v);
 	}
 
-	void CommonSettingsView::handle_fgcom_mode_change(int index)
+	void CommonConfigView::handle_fgcom_mode_change(int index)
 	{
 		RunMode mode = static_cast<RunMode>(index);
 		emit fgcom_mode_changed(mode);
 	}
 
-	void CommonSettingsView::handle_fgcom_input_volume_change(int volume)
+	void CommonConfigView::handle_fgcom_input_volume_change(int volume)
 	{
 		emit fgcom_input_volume_changed( static_cast<float>(volume) / 100.0 );
 	}
 
-	void CommonSettingsView::handle_fgcom_output_volume_change(int volume)
+	void CommonConfigView::handle_fgcom_output_volume_change(int volume)
 	{
 		emit fgcom_output_volume_changed( static_cast<float>(volume) / 100.0 );
 	}
 
 } // namespace FGComGui
 
-#include "commonsettingsview.hpp.moc"
+#include "commonconfigview.hpp.moc"
 

@@ -33,7 +33,7 @@ namespace FGComGui {
 		assert(sm_instance == 0);
 		sm_instance = this;
 
-		m_settings = new QSettings("JBurbach", "FGComGui", this);
+		m_settings = new QSettings(this);
 	}
 
 	Model::~Model()

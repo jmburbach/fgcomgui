@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "appviewcontroller.hpp"
-#include "commonsettingsview.hpp"
+#include "commonconfigview.hpp"
+#include "configdialog.hpp"
 #include "model.hpp"
 
 #include <iostream>
@@ -49,13 +50,15 @@ namespace FGComGui {
 		, m_process(0)
 		, m_file_menu(0)
 		, m_systray_menu(0)
+		, m_settings_menu(0)
 		, m_quit_action(0)
 		, m_start_action(0)
 		, m_stop_action(0)
 		, m_show_hide_action(0)
+		, m_configure_action(0)
 	{
 		resize(600, 400);
-		setWindowTitle("FGCom Gui");
+		setWindowTitle("FGComGui");
 		setWindowIcon(QIcon(":images/fgcomgui_22x22.png"));
 		
 		setup_actions();
@@ -69,7 +72,7 @@ namespace FGComGui {
 		widget->setLayout(layout);
 		setCentralWidget(widget);
 
-		m_settings_view = new CommonSettingsView(this);		
+		m_settings_view = new CommonConfigView(this);		
 		layout->addWidget(m_settings_view);
 		
 		m_start_button = new QPushButton("Start", this);
@@ -152,8 +155,10 @@ namespace FGComGui {
 
 		QStringList args;
 		args << "-Sfgcom.flightgear.org.uk"
+			<< "-S" + m.get_fgcom_server()
 			<< "-i" + QString::number(m.get_fgcom_input_volume())
-			<< "-o" + QString::number(m.get_fgcom_output_volume());
+			<< "-o" + QString::number(m.get_fgcom_output_volume())
+			<< "-p" + QString::number(m.get_fgfs_port());
 
 		if (m.get_fgcom_mode() == RM_TEST) 
 			args << "-f910";
@@ -228,7 +233,7 @@ namespace FGComGui {
 		m_process_output->moveCursor(QTextCursor::End);
 	}
 
-	void AppViewController::handle_show_hide()
+	void AppViewController::handle_show_hide_request()
 	{
 		if (isVisible()) {
 			hide();
@@ -258,7 +263,11 @@ namespace FGComGui {
 
 		m_show_hide_action = new QAction("Show/Hide", this);
 		connect(m_show_hide_action, SIGNAL(triggered()),
-				this, SLOT(handle_show_hide()));
+				this, SLOT(handle_show_hide_request()));
+
+		m_configure_action = new QAction("&Configure FGComGui", this);
+		connect(m_configure_action, SIGNAL(triggered()),
+				this, SLOT(handle_configure_request()));
 	}
 
 	void AppViewController::setup_menus()
@@ -266,6 +275,9 @@ namespace FGComGui {
 		m_file_menu = menuBar()->addMenu("&File");
 		m_file_menu->addSeparator();
 		m_file_menu->addAction(m_quit_action);
+
+		m_settings_menu = menuBar()->addMenu("&Settings");
+		m_settings_menu->addAction(m_configure_action);
 	}
 
 	void AppViewController::setup_systray()
@@ -273,11 +285,14 @@ namespace FGComGui {
 		QIcon appicon(":images/fgcomgui_22x22.png");
 
 		m_systray_menu = new QMenu("FGComGui", this);
+		m_systray_menu->setTitle("FGComGui");
 		m_systray_menu->setIcon(appicon);
 		m_systray_menu->addAction(m_show_hide_action);
+		m_systray_menu->addSeparator();
 		m_systray_menu->addAction(m_start_action);
 		m_systray_menu->addAction(m_stop_action);
 		m_systray_menu->addSeparator();
+		m_systray_menu->addAction(m_configure_action);
 		m_systray_menu->addAction(m_quit_action);
 
 		m_systray = new QSystemTrayIcon(this);
@@ -318,13 +333,19 @@ namespace FGComGui {
 			query.setDefaultButton(QMessageBox::Yes);
 			int rv = query.exec();
 			if (rv == QMessageBox::Yes) {
-				handle_stop_request();
 				qApp->quit();
 			}
 		}
 		else {
 			qApp->quit();
 		}
+	}
+
+	void AppViewController::handle_configure_request()
+	{
+		ConfigDialog dialog(this);
+		dialog.setModal(true);
+		dialog.exec();
 	}
 
 } // namespace FGComGui

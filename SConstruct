@@ -32,16 +32,19 @@ env = Environment(
 
 sources = [
 	"linux/build/main.cpp",
-	"linux/build/commonsettingsview.cpp",
+	"linux/build/commonconfigview.cpp",
 	"linux/build/appviewcontroller.cpp",
 	"linux/build/model.cpp",
-	"linux/build/qt_resources.cpp"
+	"linux/build/configview.cpp",
+	"linux/build/qt_resources.cpp",
+	"linux/build/configdialog.cpp"
 ]
 
 moc_headers = [
-	"linux/build/commonsettingsview.hpp",
+	"linux/build/commonconfigview.hpp",
 	"linux/build/appviewcontroller.hpp",
-	"linux/build/model.hpp"
+	"linux/build/model.hpp",
+	"linux/build/configview.hpp"
 ]
 
 for header in moc_headers:
