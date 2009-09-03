@@ -22,7 +22,11 @@
 
 int main(int argc, char** argv)
 {
+	QCoreApplication::setApplicationName("FGComGui");
+	QCoreApplication::setOrganizationName("JBurbach");
+
 	QApplication app(argc, argv);
+	app.setQuitOnLastWindowClosed(false);
 
 	FGComGui::Model model;
 	FGComGui::AppViewController view;	

@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __fgcomgui_commonsettingsview_hpp__
-#define __fgcomgui_commonsettingsview_hpp__
+#ifndef __fgcomgui_commonconfigview_hpp__
+#define __fgcomgui_commonconfigview_hpp__
 
 #include "fgcomgui.hpp"
 #include <QWidget>
@@ -28,14 +28,14 @@ class QComboBox;
 
 namespace FGComGui {
 
-	class CommonSettingsView
+	class CommonConfigView
 		: public QWidget
 	{
 		Q_OBJECT
 
 		public:
-			CommonSettingsView(QWidget* parent);
-			~CommonSettingsView();
+			CommonConfigView(QWidget* parent);
+			~CommonConfigView();
 
 		signals:
 			void fgcom_mode_changed(RunMode mode);
@@ -59,5 +59,5 @@ namespace FGComGui {
 	};
 
 } // namespace FGComGui
-#endif // __fgcomgui_commonsettingsview_hpp__
+#endif // __fgcomgui_commonconfigview_hpp__
 

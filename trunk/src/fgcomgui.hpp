@@ -38,6 +38,8 @@ namespace FGComGui {
 	class Model;
 	class CommonSettingsView;
 	class AppViewController;
+	class CommonConfigView;
+	class ConfigView;
 
 } // namespace FGComGui
 #endif // __fgcomgui_hpp__

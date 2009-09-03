@@ -48,8 +48,9 @@ namespace FGComGui {
 			void handle_process_output();
 			void handle_process_finished(int code, QProcess::ExitStatus status);
 			void handle_process_error(QProcess::ProcessError error);
-			void handle_show_hide();
+			void handle_show_hide_request();
 			void handle_quit_request();
+			void handle_configure_request();
 
 		private:
 			void setup_actions();
@@ -60,7 +61,7 @@ namespace FGComGui {
 			void closeEvent(QCloseEvent* event);
 			void changeEvent(QEvent* event); 
 
-			CommonSettingsView* m_settings_view;
+			CommonConfigView* m_settings_view;
 			QPushButton* m_start_button;
 			QPushButton* m_stop_button;
 			QTextEdit* m_process_output;
@@ -70,11 +71,13 @@ namespace FGComGui {
 
 			QMenu* m_file_menu;
 			QMenu* m_systray_menu;
+			QMenu* m_settings_menu;
 
 			QAction* m_quit_action;
 			QAction* m_start_action;
 			QAction* m_stop_action;
 			QAction* m_show_hide_action;
+			QAction* m_configure_action;
 	};
 
 } // namespace FGComGui
