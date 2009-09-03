@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "appviewcontroller.hpp"
+#include "model.hpp"
 
 #include <QApplication>
 
@@ -23,6 +24,7 @@ int main(int argc, char** argv)
 {
 	QApplication app(argc, argv);
 
+	FGComGui::Model model;
 	FGComGui::AppViewController view;	
 	view.show();
 

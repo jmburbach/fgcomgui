@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __fgcomgui_settingsview_hpp__
-#define __fgcomgui_settingsview_hpp__
+#ifndef __fgcomgui_commonsettingsview_hpp__
+#define __fgcomgui_commonsettingsview_hpp__
 
 #include "fgcomgui.hpp"
 #include <QWidget>
@@ -28,41 +28,36 @@ class QComboBox;
 
 namespace FGComGui {
 
-	class SettingsView
+	class CommonSettingsView
 		: public QWidget
 	{
 		Q_OBJECT
 
 		public:
-			SettingsView(QWidget* parent);
-			~SettingsView();
-
-			void set_mode(RunMode mode);
-			void set_path(const QString& path);
-			void set_input_volume(float volume);
-			void set_output_volume(float volume);
+			CommonSettingsView(QWidget* parent);
+			~CommonSettingsView();
 
 		signals:
-			void mode_changed(RunMode mode);
-			void path_changed(const QString& path);
-			void input_volume_changed(float value);
-			void output_volume_changed(float value);
+			void fgcom_mode_changed(RunMode mode);
+			void fgcom_input_volume_changed(float value);
+			void fgcom_output_volume_changed(float value);
+			
+		public slots:
+			void set_fgcom_mode(RunMode mode);
+			void set_fgcom_input_volume(float volume);
+			void set_fgcom_output_volume(float volume);
 
 		private slots:
-			void handle_mode_change(int index);
-			void handle_path_change(const QString& text);
-			void handle_input_volume_change(int volume);
-			void handle_output_volume_change(int volume);		
-			void handle_path_browser();
+			void handle_fgcom_mode_change(int index);
+			void handle_fgcom_input_volume_change(int volume);
+			void handle_fgcom_output_volume_change(int volume);		
 
 		private:
 			QComboBox* m_mode_combo;
-			QLineEdit* m_path_edit;
-			QPushButton* m_path_button;
 			QSlider* m_input_volume_slider;
 			QSlider* m_output_volume_slider;
 	};
 
 } // namespace FGComGui
-#endif // __fgcomgui_settingsview_hpp__
+#endif // __fgcomgui_commonsettingsview_hpp__
 
