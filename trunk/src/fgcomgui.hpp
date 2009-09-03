@@ -35,8 +35,9 @@ namespace FGComGui {
 		RM_TEST = 1
 	};
 
-	class SettingsView;
-	class SettingsModel;
+	class Model;
+	class CommonSettingsView;
+	class AppViewController;
 
 } // namespace FGComGui
 #endif // __fgcomgui_hpp__

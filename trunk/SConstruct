@@ -22,7 +22,7 @@ env = Environment(
 	],
 	CPPDEFINES = [
 		"LINUX",
-		"NDEBUG"
+	#	"NDEBUG"
 	],	
 	BUILDERS = {
 		"MOC": Builder(action = "$MOC_BIN < $SOURCE > $TARGET"),
@@ -32,15 +32,16 @@ env = Environment(
 
 sources = [
 	"linux/build/main.cpp",
-	"linux/build/settingsview.cpp",
+	"linux/build/commonsettingsview.cpp",
 	"linux/build/appviewcontroller.cpp",
-	"linux/build/settingsmodel.cpp",
+	"linux/build/model.cpp",
 	"linux/build/qt_resources.cpp"
 ]
 
 moc_headers = [
-	"linux/build/settingsview.hpp",
-	"linux/build/appviewcontroller.hpp"
+	"linux/build/commonsettingsview.hpp",
+	"linux/build/appviewcontroller.hpp",
+	"linux/build/model.hpp"
 ]
 
 for header in moc_headers:

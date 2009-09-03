@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "appviewcontroller.hpp"
-#include "settingsmodel.hpp"
-#include "settingsview.hpp"
+#include "commonsettingsview.hpp"
+#include "model.hpp"
 
 #include <iostream>
 
@@ -41,7 +41,6 @@ namespace FGComGui {
 
 	AppViewController::AppViewController()
 		: QMainWindow(0)
-		, m_model(0)
 		, m_settings_view(0)
 		, m_start_button(0)
 		, m_stop_button(0)
@@ -70,13 +69,7 @@ namespace FGComGui {
 		widget->setLayout(layout);
 		setCentralWidget(widget);
 
-		m_model = new SettingsModel;
-
-		m_settings_view = new SettingsView(this);		
-		m_settings_view->set_mode(m_model->get_mode());
-		m_settings_view->set_path(m_model->get_path());
-		m_settings_view->set_input_volume(m_model->get_input_volume());
-		m_settings_view->set_output_volume(m_model->get_output_volume());
+		m_settings_view = new CommonSettingsView(this);		
 		layout->addWidget(m_settings_view);
 		
 		m_start_button = new QPushButton("Start", this);
@@ -98,15 +91,6 @@ namespace FGComGui {
 		m_process_output->setReadOnly(true);
 		layout->addWidget(m_process_output);
 
-		connect(m_settings_view, SIGNAL(mode_changed(RunMode)),
-			   	this, SLOT(handle_mode_change(RunMode)));
-		connect(m_settings_view, SIGNAL(path_changed(const QString&)),
-			   	this, SLOT(handle_path_change(const QString&)));
-		connect(m_settings_view, SIGNAL(input_volume_changed(float)),
-				this, SLOT(handle_input_volume_change(float)));
-		connect(m_settings_view, SIGNAL(output_volume_changed(float)),
-				this, SLOT(handle_output_volume_change(float)));
-
 		setTabOrder(m_settings_view, m_start_button);
 		setTabOrder(m_start_button, m_stop_button);
 		setTabOrder(m_stop_button, m_process_output);
@@ -120,7 +104,6 @@ namespace FGComGui {
 	{
 		m_process->kill();
 		m_process->waitForFinished();
-		delete m_model;
 	}
 
 	void AppViewController::closeEvent(QCloseEvent* event)
@@ -155,26 +138,6 @@ namespace FGComGui {
 #endif
 	}
 
-	void AppViewController::handle_mode_change(RunMode mode)
-	{
-		m_model->set_mode(mode);
-	}
-
-	void AppViewController::handle_path_change(const QString& path)
-	{
-		m_model->set_path(path);
-	}
-
-	void AppViewController::handle_input_volume_change(float v)
-	{
-		m_model->set_input_volume(v);
-	}
-
-	void AppViewController::handle_output_volume_change(float v)
-	{
-		m_model->set_output_volume(v);
-	}
-
 	void AppViewController::handle_system_tray_activation(QSystemTrayIcon::ActivationReason reason)
 	{
 		if (reason == QSystemTrayIcon::Trigger) {
@@ -184,14 +147,15 @@ namespace FGComGui {
 
 	void AppViewController::handle_start_request()
 	{
-		QString cmd = m_model->get_path();
+		Model& m = Model::get_instance();
+		QString cmd = m.get_fgcom_path();
 
 		QStringList args;
 		args << "-Sfgcom.flightgear.org.uk"
-			<< "-i" + QString::number(m_model->get_input_volume())
-			<< "-o" + QString::number(m_model->get_output_volume());
+			<< "-i" + QString::number(m.get_fgcom_input_volume())
+			<< "-o" + QString::number(m.get_fgcom_output_volume());
 
-		if (m_model->get_mode() == RM_TEST) 
+		if (m.get_fgcom_mode() == RM_TEST) 
 			args << "-f910";
 
 		m_process->start(cmd, args);

@@ -41,10 +41,6 @@ namespace FGComGui {
 			~AppViewController();
 
 		private slots:
-			void handle_mode_change(RunMode mode);
-			void handle_path_change(const QString& path);
-			void handle_input_volume_change(float v);
-			void handle_output_volume_change(float v);
 			void handle_system_tray_activation(QSystemTrayIcon::ActivationReason reason);
 			void handle_start_request();
 			void handle_stop_request();
@@ -64,8 +60,7 @@ namespace FGComGui {
 			void closeEvent(QCloseEvent* event);
 			void changeEvent(QEvent* event); 
 
-			SettingsModel* m_model;
-			SettingsView* m_settings_view;
+			CommonSettingsView* m_settings_view;
 			QPushButton* m_start_button;
 			QPushButton* m_stop_button;
 			QTextEdit* m_process_output;
