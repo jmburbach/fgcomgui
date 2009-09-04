@@ -1,3 +1,6 @@
+import subprocess
+BUILD_REV = subprocess.Popen(["svnversion", "-n", "."], stdout = subprocess.PIPE).communicate()[0]
+
 BuildDir("linux/build", "src")
 
 env = Environment(
@@ -22,6 +25,7 @@ env = Environment(
 	],
 	CPPDEFINES = [
 		"LINUX",
+		'FGCOM_GUI_BUILD=\\"%s\\"' % BUILD_REV,
 	#	"NDEBUG"
 	],	
 	BUILDERS = {
@@ -37,14 +41,16 @@ sources = [
 	"linux/build/model.cpp",
 	"linux/build/configview.cpp",
 	"linux/build/qt_resources.cpp",
-	"linux/build/configdialog.cpp"
+	"linux/build/configdialog.cpp",
+	"linux/build/aboutdialog.cpp"
 ]
 
 moc_headers = [
 	"linux/build/commonconfigview.hpp",
 	"linux/build/appviewcontroller.hpp",
 	"linux/build/model.hpp",
-	"linux/build/configview.hpp"
+	"linux/build/configview.hpp",
+	"linux/build/aboutdialog.hpp"
 ]
 
 for header in moc_headers:

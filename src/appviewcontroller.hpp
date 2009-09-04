@@ -51,6 +51,7 @@ namespace FGComGui {
 			void handle_show_hide_request();
 			void handle_quit_request();
 			void handle_configure_request();
+			void handle_about_fgcomgui();
 
 		private:
 			void setup_actions();
