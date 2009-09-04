@@ -18,6 +18,7 @@
 #include "commonconfigview.hpp"
 #include "configdialog.hpp"
 #include "model.hpp"
+#include "aboutdialog.hpp"
 
 #include <iostream>
 
@@ -59,7 +60,7 @@ namespace FGComGui {
 	{
 		resize(600, 400);
 		setWindowTitle("FGComGui");
-		setWindowIcon(QIcon(":images/fgcomgui_22x22.png"));
+		setWindowIcon(QIcon(":images/fgcomgui_small.png"));
 		
 		setup_actions();
 		setup_menus();
@@ -179,10 +180,11 @@ namespace FGComGui {
 		switch (state) {
 			case QProcess::Starting:
 				m_settings_view->setEnabled(false);
-				m_start_button->setEnabled(false);
 				m_start_action->setEnabled(false);
-				m_stop_button->setEnabled(true);
+				m_start_button->setEnabled(false);
+				m_configure_action->setEnabled(false);
 				m_stop_action->setEnabled(true);
+				m_stop_button->setEnabled(true);
 				statusBar()->showMessage("fgcom is starting", 3000);
 				break;
 			case QProcess::Running:
@@ -190,10 +192,11 @@ namespace FGComGui {
 				break;
 			case QProcess::NotRunning:
 				m_settings_view->setEnabled(true);
-				m_start_button->setEnabled(true);
 				m_start_action->setEnabled(true);
-				m_stop_button->setEnabled(false);
+				m_start_button->setEnabled(true);
+				m_configure_action->setEnabled(true);
 				m_stop_action->setEnabled(false);
+				m_stop_button->setEnabled(false);
 				break;
 		}
 	}
@@ -278,11 +281,14 @@ namespace FGComGui {
 
 		m_settings_menu = menuBar()->addMenu("&Settings");
 		m_settings_menu->addAction(m_configure_action);
+
+		QMenu* help_menu = menuBar()->addMenu("&Help");
+		help_menu->addAction("&About FGComGui", this, SLOT(handle_about_fgcomgui()));
 	}
 
 	void AppViewController::setup_systray()
 	{
-		QIcon appicon(":images/fgcomgui_22x22.png");
+		QIcon appicon(":images/fgcomgui_small.png");
 
 		m_systray_menu = new QMenu("FGComGui", this);
 		m_systray_menu->setTitle("FGComGui");
@@ -343,9 +349,21 @@ namespace FGComGui {
 
 	void AppViewController::handle_configure_request()
 	{
+		// disable until finished 
+		m_configure_action->setEnabled(false);
+
 		ConfigDialog dialog(this);
 		dialog.setModal(true);
 		dialog.exec();
+
+		// re-enable
+		m_configure_action->setEnabled(true);
+	}
+
+	void AppViewController::handle_about_fgcomgui()
+	{
+		static AboutDialog* dialog = new AboutDialog(this);
+		dialog->show();
 	}
 
 } // namespace FGComGui
