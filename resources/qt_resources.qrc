@@ -1,9 +1,0 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-	<qresource>
-		<file>images/fgcomgui_small.png</file>
-		<file>images/fgcomgui_medium.png</file>
-		<file>images/fgcomgui_large.png</file>
-	</qresource>
-</RCC>
-
