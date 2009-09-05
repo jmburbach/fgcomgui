@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Comment[en_US]=FGComGui
+Exec=fgcomgui
+GenericName[en_US]=FGComGui
+Icon=fgcomgui.png
+MimeType=
+Name[en_US]=FGComGui
+StartupNotify=true
+Terminal=false
+Type=Application
+
