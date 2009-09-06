@@ -28,7 +28,7 @@ namespace FGComGui {
 	ConfigDialog::ConfigDialog(QWidget* parent)
 		: QDialog(parent)
 	{
-		setWindowIcon(QIcon(":images/fgcomgui_small.png"));
+		setWindowIcon(QIcon(":data/images/fgcomgui_small.png"));
 		setWindowTitle("Configure - FGComGui");
 
 		QVBoxLayout* main_layout = new QVBoxLayout;

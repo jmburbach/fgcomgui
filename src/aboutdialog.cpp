@@ -36,7 +36,7 @@ namespace FGComGui {
 		, m_authors_page(0)
 	{
 		setWindowTitle("About FGComGui");
-		setWindowIcon(QIcon(":images/fgcomgui_small.png"));
+		setWindowIcon(QIcon(":data/images/fgcomgui_small.png"));
 
 		setup_title_widget();
 		setup_about_page();

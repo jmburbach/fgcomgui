@@ -1,0 +1,25 @@
+Scons is used for building and install FGComGui. Currently the SConstruct build
+script should work without modifications on Ubuntu based systems. Others may
+need to adjust some of the paths to fit there system, sorry, this will be fixed
+soon.
+
+FGComGui's only dependancy is Qt4, you will need the Qt4 development package(s).
+
+To build run
+$ scons
+
+To see build arguments run
+$ scons --help
+
+To set installation prefix (default is /usr/local)
+$ scons prefix=/some/other/prefix
+
+To install
+$ sudo scons install
+
+To uninstall
+$ sudo scons -c install
+
+
+Build arguments are cached in config.py, delete this file to reset to defaults.
+
