@@ -1,12 +1,12 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Comment[en_US]=FGComGui
+Name=FGComGui
+GenericName=Gui Front End For FGCom
+Comment=Gui Front End For FGCom
+Icon=fgcomgui
 Exec=fgcomgui
-GenericName[en_US]=FGComGui
-Icon=fgcomgui.png
-MimeType=
-Name[en_US]=FGComGui
-StartupNotify=true
+StartupNotify=false
 Terminal=false
 Type=Application
+Categories=Network;Application;Qt;
 
