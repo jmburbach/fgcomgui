@@ -97,11 +97,23 @@ install_targets.append( env.Install("$prefix/bin", fgcomgui) )
 # for license
 install_targets.append( env.Install("$prefix/share/fgcomgui", "LICENSE.txt") )
 
-# install targets for docs
+# for docs
 doc_html = [ "docs/README.html" ]
 doc_imgs = Glob("docs/images/*")
 install_targets.append( env.Install("$prefix/share/doc/fgcomgui", doc_html) )
 install_targets.append( env.Install("$prefix/share/doc/fgcomgui/images", doc_imgs) )
+
+# for icons
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/16x16/apps/fgcomgui.png", "data/images/fgcomgui_16.png") )
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/22x22/apps/fgcomgui.png", "data/images/fgcomgui_22.png") )
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/24x24/apps/fgcomgui.png", "data/images/fgcomgui_24.png") )
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/32x32/apps/fgcomgui.png", "data/images/fgcomgui_32.png") )
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/48x48/apps/fgcomgui.png", "data/images/fgcomgui_48.png") )
+install_targets.append( env.InstallAs("$prefix/share/icons/hicolor/64x64/apps/fgcomgui.png", "data/images/fgcomgui_64.png") )
+install_targets.append( env.Install("$prefix/share/icons/hicolor/scalable/apps", "data/images/fgcomgui.svg") )
+
+# for .desktop
+install_targets.append( env.Install("$prefix/share/applications", "data/fgcomgui.desktop") )
 
 # install command
 env.Alias("install", install_targets)
