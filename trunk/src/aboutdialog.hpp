@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __fgcomgui_aboutdialog__
-#define __fgcomgui_aboutdialog__
+#ifndef __fgcomgui_aboutdialog_hpp__
+#define __fgcomgui_aboutdialog_hpp__
 
 #include "fgcomgui.hpp"
 #include <QDialog>
@@ -42,8 +42,9 @@ namespace FGComGui {
 			QWidget* m_title_widget;
 			QWidget* m_about_page;
 			QWidget* m_authors_page;
+			LicenseDialog* m_license_dialog;
 	};
 
 } // namespace FGComGui
-#endif // __fgcomgui_aboutdialog__
+#endif // __fgcomgui_aboutdialog_hpp__
 

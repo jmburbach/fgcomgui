@@ -40,6 +40,9 @@ namespace FGComGui {
 	class AppViewController;
 	class CommonConfigView;
 	class ConfigView;
+	class LicenseDialog;
+	class ConfigDialog;
+	class AboutDialog;
 
 } // namespace FGComGui
 #endif // __fgcomgui_hpp__

@@ -14,11 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __CHANGEME_hpp__
-#define __CHANGEME_hpp__
+#ifndef __fgcomgui_licensedialog_hpp__
+#define __fgcomgui_licensedialog_hpp__
+
+#include "fgcomgui.hpp"
+#include <QDialog>
 
 namespace FGComGui {
 
+	class LicenseDialog
+		: public QDialog
+	{
+		Q_OBJECT
+		public:
+			LicenseDialog(QWidget* parent = 0);
+	};
+
 } // namespace FGComGui
-#endif // __CHANGEME_hpp__
+#endif // __fgcomgui_licensedialog_hpp__
 

@@ -65,7 +65,8 @@ sources = [
 	"linux/build/configview.cpp",
 	"linux/build/qt_resources.cpp",
 	"linux/build/configdialog.cpp",
-	"linux/build/aboutdialog.cpp"
+	"linux/build/aboutdialog.cpp",
+	"linux/build/licensedialog.cpp",
 ]
 
 # program headers that need moc'd
@@ -74,7 +75,8 @@ moc_headers = [
 	"linux/build/appviewcontroller.hpp",
 	"linux/build/model.hpp",
 	"linux/build/configview.hpp",
-	"linux/build/aboutdialog.hpp"
+	"linux/build/aboutdialog.hpp",
+	"linux/build/licensedialog.hpp",
 ]
 
 # generate moc files 
