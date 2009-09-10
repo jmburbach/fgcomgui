@@ -52,6 +52,7 @@ namespace FGComGui {
 			void handle_quit_request();
 			void handle_configure_request();
 			void handle_about_fgcomgui();
+			void handle_html_docs();
 
 		private:
 			void setup_actions();
@@ -79,6 +80,8 @@ namespace FGComGui {
 			QAction* m_stop_action;
 			QAction* m_show_hide_action;
 			QAction* m_configure_action;
+
+			AboutDialog* m_about_dialog;
 	};
 
 } // namespace FGComGui

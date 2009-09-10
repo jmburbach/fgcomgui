@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "aboutdialog.hpp"
+#include "licensedialog.hpp"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -27,6 +28,13 @@
 #include <QUrl>
 #include <QDialogButtonBox>
 
+#if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
+#define FGCOM_GUI_GPL_PATH "file:///LICENSE.txt"
+#else
+#define FGCOM_GUI_GPL_PATH "file:///"FGCOM_GUI_PREFIX"/share/fgcomgui/LICENSE.txt"
+#endif
+
+
 namespace FGComGui {
 
 	AboutDialog::AboutDialog(QWidget* parent)
@@ -34,6 +42,7 @@ namespace FGComGui {
 		, m_title_widget(0)
 		, m_about_page(0)
 		, m_authors_page(0)
+		, m_license_dialog(0)
 	{
 		setWindowTitle("About FGComGui");
 		setWindowIcon(QIcon(":data/images/fgcomgui_small.png"));
@@ -73,7 +82,7 @@ namespace FGComGui {
 		m_title_widget->setLayout(title_layout);
 
 		QLabel* image_label = new QLabel(this);
-		image_label->setPixmap(QPixmap(":images/fgcomgui_large.png"));
+		image_label->setPixmap(QPixmap(":data/images/fgcomgui_large.png"));
 		title_layout->addWidget(image_label);
 
 		QLabel* title_label = new QLabel(this);
@@ -137,13 +146,13 @@ namespace FGComGui {
 				"			Copyright (C) 2009 Jacob Burbach <jmburbach@gmail.com><br />"
 				"			<br />"
 				"			This program is free software: you can redistribute it and/or modify<br />"
-				"			it under the terms of the GNU General Public License, version 3, as<br />"
+				"			it under the terms of the <a href=\"file:///LICENSE.txt\">GNU General Public License</a>, version 3, as<br />"
 				"			published by the Free Software Foundation.<br />"
 				"			<br />"
 				"			This program is distributed in the hope that it will be useful,<br />"
 				"			but WITHOUT ANY WARRANTY; without even the implied warranty of<br />"
 				"			MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
-				"			GNU General Public License for more details.<br />"
+				"			<a href=\"file:///LICENSE.txt\">GNU General Public License</a> for more details.<br />"
 				"			<br />"
 				"			Project page:<br />"
 				"			<a href=\"http://code.google.com/p/fgcomgui\">http://code.google.com/p/fgcomgui</a><br />"
@@ -199,6 +208,15 @@ namespace FGComGui {
 
 	void AboutDialog::handle_link_activated(const QString& url)
 	{
+		// intercept license, show dialog
+		if (url == "file:///LICENSE.txt") {
+			if (m_license_dialog == 0)
+				m_license_dialog = new LicenseDialog(this);
+			m_license_dialog->show();
+			return;				
+		}
+
+		// otherwise let Qt figure it out
 		QDesktopServices::openUrl(QUrl(url));
 	}
 

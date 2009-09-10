@@ -117,6 +117,14 @@ namespace FGComGui {
 		main_layout->addWidget(fgcom_box);
 		main_layout->addWidget(fgfs_box);
 		setLayout(main_layout);
+		
+		//
+		connect(this, SIGNAL(fgcom_path_changed(const QString&)),
+				&model, SLOT(set_fgcom_path(const QString&)));
+		connect(this, SIGNAL(fgcom_server_changed(const QString&)),
+				&model, SLOT(set_fgcom_server(const QString&)));
+		connect(this, SIGNAL(fgfs_port_changed(unsigned short)),
+				&model, SLOT(set_fgfs_port(unsigned short)));
 	}
 
 	ConfigView::~ConfigView()

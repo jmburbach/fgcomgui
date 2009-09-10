@@ -37,6 +37,9 @@
 #include <QStatusBar>
 #include <QKeySequence>
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QDir>
 
 
 namespace FGComGui {
@@ -57,6 +60,7 @@ namespace FGComGui {
 		, m_stop_action(0)
 		, m_show_hide_action(0)
 		, m_configure_action(0)
+		, m_about_dialog(0)
 	{
 		resize(600, 400);
 		setWindowTitle("FGComGui");
@@ -283,6 +287,8 @@ namespace FGComGui {
 		m_settings_menu->addAction(m_configure_action);
 
 		QMenu* help_menu = menuBar()->addMenu("&Help");
+		help_menu->addAction("&HTML Docs", this, SLOT(handle_html_docs()));
+		help_menu->addSeparator();
 		help_menu->addAction("&About FGComGui", this, SLOT(handle_about_fgcomgui()));
 	}
 
@@ -362,8 +368,20 @@ namespace FGComGui {
 
 	void AppViewController::handle_about_fgcomgui()
 	{
-		static AboutDialog* dialog = new AboutDialog(this);
-		dialog->show();
+		if (m_about_dialog == 0)
+			m_about_dialog = new AboutDialog(this);
+		m_about_dialog->show();
+	}
+
+	void AppViewController::handle_html_docs()
+	{
+#if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_LINUX
+		QString path = "file:///"FGCOM_GUI_PREFIX"/share/doc/fgcomgui/README.html";
+#else
+		QDir d;
+		QString path = "file:///" + d.absoluteFilePath("docs/README.html");
+#endif
+		QDesktopServices::openUrl(QUrl(path));
 	}
 
 } // namespace FGComGui
