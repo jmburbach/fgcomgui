@@ -40,6 +40,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QDir>
+#include <QString>
 
 
 namespace FGComGui {
@@ -159,18 +160,26 @@ namespace FGComGui {
 		QString cmd = m.get_fgcom_path();
 
 		QStringList args;
-		args << "-Sfgcom.flightgear.org.uk"
-			<< "-S" + m.get_fgcom_server()
-			<< "-i" + QString::number(m.get_fgcom_input_volume())
-			<< "-o" + QString::number(m.get_fgcom_output_volume())
-			<< "-p" + QString::number(m.get_fgfs_port());
+		args << "-S" + m.get_fgcom_server()
+			 << "-i" + QString::number(m.get_fgcom_input_volume())
+			 << "-o" + QString::number(m.get_fgcom_output_volume())
+			 << "-p" + QString::number(m.get_fgfs_port());
 
 		if (m.get_fgcom_mode() == RM_TEST) 
 			args << "-f910";
+		
+		m_process_output->clear();
+		m_process_output->insertPlainText(QString("$ %1").arg(cmd));
+
+		QStringListIterator argsIt(args);
+		while (argsIt.hasNext()) {
+			m_process_output->insertPlainText(" " + argsIt.next());
+		}
+		m_process_output->insertPlainText("\n");
+		m_process_output->moveCursor(QTextCursor::End);
 
 		m_process->start(cmd, args);
 		m_process->closeWriteChannel();
-		m_process_output->clear();
 	}
 
 	void AppViewController::handle_stop_request()
@@ -189,10 +198,10 @@ namespace FGComGui {
 				m_configure_action->setEnabled(false);
 				m_stop_action->setEnabled(true);
 				m_stop_button->setEnabled(true);
-				statusBar()->showMessage("fgcom is starting", 3000);
+				//statusBar()->showMessage("fgcom is starting", 3000);
 				break;
 			case QProcess::Running:
-				statusBar()->showMessage("fgcom is running", 3000);
+				//statusBar()->showMessage("fgcom is running", 3000);
 				break;
 			case QProcess::NotRunning:
 				m_settings_view->setEnabled(true);
@@ -216,18 +225,25 @@ namespace FGComGui {
 
 	void AppViewController::handle_process_finished(int code, QProcess::ExitStatus status)
 	{
+#if defined(DEBUG)
+		QString message = QString("process exited with code: %1, status: %2\n")
+			.arg(code)
+			.arg(status == QProcess::NormalExit ? "QProcess::NormalExit" : "QProcess::CrashExit");
+		m_process_output->append(message);
+		m_process_output->moveCursor(QTextCursor::End);
+#endif
 	}
 
 	void AppViewController::handle_process_error(QProcess::ProcessError error)
 	{
-		QString message(">> error: ");
+		QString message("$ error: ");
 
 		switch (error) {
 			case QProcess::FailedToStart:
-				message += "process failed to start; incorrect path?";
+				message += "fgcom failed to start; (incorrect path?)";
 				break;
 			case QProcess::ReadError:
-				message += "error reading from process";
+				message += "there was an error reading from the process";
 				break;
 			case QProcess::UnknownError:
 				message += "unknown error";
@@ -338,6 +354,7 @@ namespace FGComGui {
 		QProcess::ProcessState state = m_process->state();
 		if (state == QProcess::Running || state == QProcess::Starting) {
 			QMessageBox query;
+			query.setIcon(QMessageBox::Warning);
 			query.setWindowTitle("FGComGui?");
 			query.setText("FGCom is running.");
 			query.setInformativeText("Are you sure you want to quit?");

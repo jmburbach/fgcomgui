@@ -34,7 +34,7 @@
 				margin-left: 30px;
 				padding: 0px;
 			}
-			h2 {
+			h2,h4 {
 				margin-top: 25px;
 				margin-bottom: 5px;
 			}
@@ -85,27 +85,34 @@
 
 				<div class="section">
 					<a name="FGComGui"></a>
-					<h2>The FGComGui window</h2>
+					<h2>FGComGui</h2>
 					<div class="sectionbody">
-						<img src="images/fgcomgui.png" />
-						<h3>Settings can only be modifed before fgcom is started.</h3>
+						<p>The main window.</p>
+						<img src="images/fgcomgui_main.png" />
+						<br /><br />
+						<p>The configuration window. Available from the menu, or the system tray icon context menu.</p>
+						<img src="images/fgcomgui_config.png" />
 						<ol type="A">
-							<li>Your standard file menu. Currently it contains only one item, to exit the application</li>
-							<li>There are two modes, the normal mode used with flightgear, and a test mode. In the test
-							mode everything you say will be echoed back to you, allowing you to check that everything is
-							working and volumes are good.</li>
-							<li>Here you can enter the name or full path to the fgcom executable. Pressing the button to
-						   	the right will open a file browser. This does not normally need to be changed.</li>
+							<li>There are two run modes, the normal mode used with flightgear, and a test mode. In the test
+								mode everything you say will be echoed back to you, allowing you to check that everything is
+								working and volumes are good.</li>
 							<li>Slider to adjust your input(recording) volume</li>
 							<li>Slider to adjust your output(playback) volume</li>
 							<li>Start button, pressing this to start fgcom</li>
 							<li>Stop button, press this to stop fgcom</li>
 							<li>Messages from fgcom will be displayed here</li>
+							<li>Name or full path of the fgcom executable. Does not normally need to be changed.</li>
+							<li>The fgcom server to connect to. Does not normally need to be changed(there is
+								only one server currently).</li>
+							<li>The port you configured flightgear to send data on, see flightgear section. Does not
+								normally need to be changed.</li>
 						</ol>
+						<h4>*settings can only be modifed while fgcom is not running.</h4>
 						<br />
-						<p>FGComGui will display an icon in the system tray. Closing the window will not exit the application,
-						but hide it instead. You can show/hide the window by clicking the tray icon. To exit the application
-						use the File menu, or right click the tray icon and select Quit.</p>
+						<p>FGComGui will display an icon in the system tray(notification area). On Linux, closing the window does not
+						exit the application, it will continue running in the tray. On Windows, closing the window will exit FGComGui,
+						use the minimize button to close only the window and continue running in the notifcation area. Right click the
+					   	system tray icon to get a context menu with options to show/hide, start/stop fgcom, configure, or exit FGComGui.</p>
 					</div>
 				</div>
 

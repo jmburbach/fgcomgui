@@ -125,6 +125,13 @@ namespace FGComGui {
 				&model, SLOT(set_fgcom_server(const QString&)));
 		connect(this, SIGNAL(fgfs_port_changed(unsigned short)),
 				&model, SLOT(set_fgfs_port(unsigned short)));
+
+		connect(&model, SIGNAL(fgcom_path_changed(const QString&)),
+				this, SLOT(set_fgcom_path(const QString&)));
+		connect(&model, SIGNAL(fgcom_server_changed(const QString&)),
+				this, SLOT(set_fgcom_server(const QString&)));
+		connect(&model, SIGNAL(fgfs_port_changed(unsigned short)),
+				this, SLOT(set_fgfs_port(unsigned short)));
 	}
 
 	ConfigView::~ConfigView()
@@ -167,19 +174,16 @@ namespace FGComGui {
 	void ConfigView::set_fgcom_path(const QString& path)
 	{
 		m_fgcom_path_edit->setText(path);
-		emit fgcom_path_changed(path);
 	}
 
 	void ConfigView::set_fgcom_server(const QString& url)
 	{
 		m_fgcom_server_edit->setText(url);
-		emit fgcom_server_changed(url);
 	}
 
 	void ConfigView::set_fgfs_port(unsigned short port)
 	{
 		m_fgfs_port_edit->setText(QString::number(port));
-		emit fgfs_port_changed(port);
 	}
 
 } // namespace FGComGui
