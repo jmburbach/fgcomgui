@@ -51,7 +51,7 @@ env.Append(
 if env["debug"]:
 	env.Append(CCFLAGS = [ "-g" ], CPPDEFINES = [ "DEBUG" ])
 else:
-	env.Append(CCFLAGS = [ "-O2" ], CPPDEFINES = [ "NDEBUG" ])
+	env.Append(CCFLAGS = [ "-O2" ], CPPDEFINES = [ "NDEBUG" ], LINKFLAGS = [ "-s" ])
 
 # where to build files
 BuildDir("linux/build", "src")
