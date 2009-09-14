@@ -374,6 +374,7 @@ namespace FGComGui {
 	{
 		// disable until finished 
 		m_configure_action->setEnabled(false);
+		m_start_action->setEnabled(false);
 
 		ConfigDialog dialog(this);
 		dialog.setModal(true);
@@ -381,6 +382,7 @@ namespace FGComGui {
 
 		// re-enable
 		m_configure_action->setEnabled(true);
+		m_start_action->setEnabled(true);
 	}
 
 	void AppViewController::handle_about_fgcomgui()
