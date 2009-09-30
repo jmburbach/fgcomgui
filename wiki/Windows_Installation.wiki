@@ -1,4 +1,4 @@
-#summary Generic installations instructions for a Windows os.
+#summary Installation instructions Windows operating systems.
 = Introduction =
 
 There are packages for windows available from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab. The packages use the *_fgcomgui-win32-bundle-mmddyear.zip_* naming scheme, mmddyear being the date of the release. These packages contain everything needed for using fgcom on a windows os.
@@ -8,12 +8,14 @@ There are packages for windows available from the [http://code.google.com/p/fgco
 
 Currently fgcomgui does not have an installer, but comes as a single zip archive containing all its files in a single directory. So to install is as simple as downloading the new windows bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, and extracting it to a location of your choosing. You can then run the FGComGui.exe in the newly extracted folder to start fgcomgui.
 
-Generic installation steps:
+Installation steps:
    # Download the newest win32 bundle from [http://code.google.com/p/fgcomgui/downloads/list downloads] tab
    # Extract the bundle to a location of your choosing. See extraction notes below.
    # You should have a new folder named similar to the zip in the location you extracted to.
    # Run the FGComGui.exe in this folder to start fgcomgui.
    # Create a shortcut on your desktop by either holding Alt and dragging FGComGui.exe to the desktop, or by right clicking the exe, creating shortcut, and moving it to the desktop.
+
+`*' _The first time running fgcomgui, you may get a popup asking if your sure you wish to run the exe, just click yes, fgcomgui is perfectly safe.
 
 = Extraction Notes =
 `*`_These instructions are based off standard features of Windows XP, and may not be exactly the same on a different Windows os_
