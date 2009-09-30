@@ -21,6 +21,6 @@ Generic installation steps:
 `*` _If you have other archiving software installed, such as winzip, then it may override Windows standard behavior for interacting with zip archives. Consult the manual for your archiving software if these instructions don't work for you.
 
 `*` _For simplicity it is assumed that the fgcomgui bundle is downloaded and extracted to the desktop._
- 
- 
+
+
 After downloading the win32 bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, it is necessary
