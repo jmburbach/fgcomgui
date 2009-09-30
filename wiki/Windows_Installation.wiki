@@ -6,9 +6,9 @@ There are packages for windows available from the [http://code.google.com/p/fgco
 
 = Installation =
 
-Currently fgcomgui does not have an installer, but comes as a single zip archive containing all its files in a single directory. So to install is as simple as downloading the new windows bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, and extracting it to a location of your choosing. You can then run the FGComGui.exe in the newly extracted folder to start fgcomgui.
+Currently fgcomgui does not have an installer, but comes as a single zip archive containing all its files in a single directory. Installation is as simple as downloading the newest windows bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, and extracting it to a location of your choosing. You can then run the FGComGui.exe in the newly extracted folder to start fgcomgui.
 
-Installation steps:
+Basic installation steps:
    # Download the newest win32 bundle from [http://code.google.com/p/fgcomgui/downloads/list downloads] tab
    # Extract the bundle to a location of your choosing. See extraction notes below.
    # You should have a new folder named similar to the zip in the location you extracted to.
