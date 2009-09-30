@@ -25,7 +25,7 @@ Basic installation steps:
 `*` _For simplicity it is assumed that the fgcomgui bundle is downloaded and extracted to the desktop._
 
 
-Right click the downloaded *fgcomgui-win32-bundle-mmddyear.zip* that you have downloaded, and select _Explore_. You should see a folder *fgcomgui-win32-bundle-mmddyear* containing all the fgcomgui files. Simple drag this folder onto your desktop to extract it. A dialog may appear asking if your sure, just select yes.
+Right click the *fgcomgui-win32-bundle-mmddyear.zip* that you have downloaded, and select _Explore_. You should see a folder *fgcomgui-win32-bundle-mmddyear* containing all the fgcomgui files. Simple drag this folder onto your desktop to extract it. A dialog may appear asking if your sure, just select yes.
 
 Alternatively you can right click the downloaded *fgcomgui-win32-bundle-mmddyear.zip* you downloaded and select _Extract All..._, in which case a wizard will appear to aid in the extraction process. Clicking next in the wizard will advance to a page asking for folder to extract files to. Click the _Browse_ button, select your desktop, and then press next. You can close the wizard after files finish extracting.
 
