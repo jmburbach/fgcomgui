@@ -10,7 +10,7 @@ Currently fgcomgui does not have an installer, but comes as a single zip archive
 
 Basic installation steps:
    # Download the newest win32 bundle from [http://code.google.com/p/fgcomgui/downloads/list downloads] tab
-   # Extract the bundle to a location of your choosing. See extraction notes below.
+   # Extract the bundle to a location of your choosing. (See Extraction Notes below)
    # You should have a new folder named similar to the zip in the location you extracted to.
    # Run the FGComGui.exe in this folder to start fgcomgui.
    # Create a shortcut on your desktop by either holding Alt and dragging FGComGui.exe to the desktop, or by right clicking the exe, creating shortcut, and moving it to the desktop.
