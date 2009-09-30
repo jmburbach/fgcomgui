@@ -4,7 +4,7 @@
 There are packages for windows available from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab. The packages use the *_fgcomgui-win32-bundle-mmddyear.zip_* naming scheme, mmddyear being the date of the release. These packages contain everything needed for using fgcom on a windows os.
 
 
-= Details =
+= Installation =
 
 Currently fgcomgui does not have an installer, but comes as a single zip archive containing all its files in a single directory. So to install is as simple as downloading the new windows bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, and extracting it to a location of your choosing. You can then run the FGComGui.exe in the newly extracted folder to start fgcomgui.
 
@@ -23,4 +23,8 @@ Generic installation steps:
 `*` _For simplicity it is assumed that the fgcomgui bundle is downloaded and extracted to the desktop._
 
 
-After downloading the win32 bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, it is necessary
+Right click the downloaded *fgcomgui-win32-bundle-mmddyear.zip* that you have downloaded, and select _Explore_. You should see a folder *fgcomgui-win32-bundle-mmddyear* containing all the fgcomgui files. Simple drag this folder onto your desktop to extract it. A dialog may appear asking if your sure, just select yes.
+
+Alternatively you can right click the downloaded *fgcomgui-win32-bundle-mmddyear.zip* you downloaded and select _Extract All..._, in which case a wizard will appear to aid in the extraction process. Clicking next in the wizard will advance to a page asking for folder to extract files to. Click the _Browse_ button, select your desktop, and then press next. You can close the wizard after files finish extracting.
+
+After extracting using one of the methods above, you should have a *fgcomgui-win32-bundle-mmddyear* folder on your desktop containing all of the fgcomgui files. You may now refer to steps 4 and 5 of the Installation section for instructions how to run, and how to create a shortcut to fgcomgui on your desktop.
