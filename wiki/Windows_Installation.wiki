@@ -1,0 +1,12 @@
+#summary Generic installations instructions for a Windows os.
+= Introduction =
+
+There are packages for windows available from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab. The packages use the *_fgcomgui-win32-bundle-mmddyear.zip_* naming scheme, mmddyear being the date of the release. These packages contain everything needed for using fgcom on a windows os.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
