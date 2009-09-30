@@ -6,7 +6,21 @@ There are packages for windows available from the [http://code.google.com/p/fgco
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Currently fgcomgui does not have an installer, but comes as a single zip archive containing all its files in a single directory. So to install is as simple as downloading the new windows bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, and extracting it to a location of your choosing. You can then run the FGComGui.exe in the newly extracted folder to start fgcomgui.
+
+Generic installation steps:
+   # Download the newest win32 bundle from [http://code.google.com/p/fgcomgui/downloads/list downloads] tab
+   # Extract the bundle to a location of your choosing. See extraction notes below.
+   # You should have a new folder named similar to the zip in the location you extracted to.
+   # Run the FGComGui.exe in this folder to start fgcomgui.
+   # Create a shortcut on your desktop by either holding Alt and dragging FGComGui.exe to the desktop, or by right clicking the exe, creating shortcut, and moving it to the desktop.
+
+= Extraction Notes =
+`*`_These instructions are based off standard features of Windows XP, and may not be exactly the same on a different Windows os_
+
+`*` _If you have other archiving software installed, such as winzip, then it may override Windows standard behavior for interacting with zip archives. Consult the manual for your archiving software if these instructions don't work for you.
+
+`*` _For simplicity it is assumed that the fgcomgui bundle is downloaded and extracted to the desktop._
+ 
+ 
+After downloading the win32 bundle from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab, it is necessary
