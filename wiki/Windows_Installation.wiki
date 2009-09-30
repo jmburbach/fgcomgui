@@ -15,7 +15,7 @@ Installation steps:
    # Run the FGComGui.exe in this folder to start fgcomgui.
    # Create a shortcut on your desktop by either holding Alt and dragging FGComGui.exe to the desktop, or by right clicking the exe, creating shortcut, and moving it to the desktop.
 
-`*' _The first time running fgcomgui, you may get a popup asking if your sure you wish to run the exe, just click yes, fgcomgui is perfectly safe._
+`*` _The first time running fgcomgui, you may get a popup asking if your sure you wish to run the exe, just click yes, fgcomgui is perfectly safe._
 
 = Extraction Notes =
 `*`_These instructions are based off standard features of Windows XP, and may not be exactly the same on a different Windows os_
