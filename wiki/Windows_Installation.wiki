@@ -17,7 +17,12 @@ Basic installation steps:
 
 `*` _The first time running fgcomgui, you may get a popup asking if your sure you wish to run the exe, just click yes, fgcomgui is perfectly safe._
 
+= What Next? =
+
+FGComGui comes with some basic documentation explaining the different parts of the interface, as well as how to configure FlightGear to communicate with it. To view the documentation, start fgcomgui and select _HTML Docs_ from the _Help_ menu.
+
 = Extraction Notes =
+
 `*`_These instructions are based off standard features of Windows XP, and may not be exactly the same on a different Windows os_
 
 `*` _If you have other archiving software installed, such as winzip, then it may override Windows standard behavior for interacting with zip archives. Consult the manual for your archiving software if these instructions don't work for you.
