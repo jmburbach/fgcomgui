@@ -22,6 +22,7 @@
 
 class QLineEdit;
 class QPushButton;
+class QCheckBox;
 
 
 namespace FGComGui {
@@ -55,6 +56,7 @@ namespace FGComGui {
 			QPushButton* m_fgcom_path_button;
 			QLineEdit* m_fgcom_server_edit;
 			QLineEdit* m_fgfs_port_edit;
+			QCheckBox* m_systray_checkbox;
 	};
 
 } // namespace FGComGui

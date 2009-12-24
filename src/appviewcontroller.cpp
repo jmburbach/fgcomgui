@@ -117,12 +117,16 @@ namespace FGComGui {
 
 	void AppViewController::closeEvent(QCloseEvent* event)
 	{
+		event->ignore();
 #if FGCOM_GUI_PLATFORM ==  FGCOM_GUI_PLATFORM_LINUX
-		event->ignore();
-		m_show_hide_action->trigger();
-		m_systray->showMessage("FGComGui", "FGComGui will continue running in the system tray...");
-#else
-		event->ignore();
+		if (Model::get_instance().get_systray_enabled()) {
+			m_show_hide_action->trigger();
+			m_systray->showMessage("FGComGui", "FGComGui will continue running in the system tray...");
+		}
+		else {
+			m_quit_action->trigger();
+		}
+#elif FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
 		m_quit_action->trigger();
 #endif
 	}
@@ -130,17 +134,22 @@ namespace FGComGui {
 	void AppViewController::changeEvent(QEvent* event)
 	{
 #if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
-		if (event->type() == QEvent::WindowStateChange) {
-			QWindowStateChangeEvent* ce = static_cast<QWindowStateChangeEvent*>(event);
-			bool was_minimized = ce->oldState() & Qt::WindowMinimized;
-			bool is_minimized = windowState() & Qt::WindowMinimized;
-			if (!was_minimized && is_minimized) {
-				event->ignore();
-				m_systray->showMessage("FGComGui", "FGComGui was minimized to the notification area...");
-				
-				// doesn't work properly if called directly...
-				QTimer::singleShot(10, m_show_hide_action, SLOT(trigger()));
+		if (Model::get_instance().get_systray_enabled()) {
+			if (event->type() == QEvent::WindowStateChange) {
+				QWindowStateChangeEvent* ce = static_cast<QWindowStateChangeEvent*>(event);
+				bool was_minimized = ce->oldState() & Qt::WindowMinimized;
+				bool is_minimized = windowState() & Qt::WindowMinimized;
+				if (!was_minimized && is_minimized) {
+					event->ignore();
+					m_systray->showMessage("FGComGui", "FGComGui was minimized to the notification area...");
+					
+					// doesn't work properly if called directly...
+					QTimer::singleShot(10, m_show_hide_action, SLOT(trigger()));
+				}
 			}
+		}
+		else {
+			QMainWindow::changeEvent(event);
 		}
 #else
 		QMainWindow::changeEvent(event);
@@ -327,10 +336,15 @@ namespace FGComGui {
 		m_systray->setIcon(appicon);
 		m_systray->setToolTip("FGComGui");
 		m_systray->setContextMenu(m_systray_menu);
-		m_systray->show();
+
+		if (Model::get_instance().get_systray_enabled()) {
+			m_systray->show();
+		}
 		
 		connect(m_systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 				this, SLOT(handle_system_tray_activation(QSystemTrayIcon::ActivationReason)));
+		connect(&Model::get_instance(), SIGNAL(systray_enabled_changed(bool)),
+				m_systray, SLOT(setVisible(bool)));
 	}
 
 	void AppViewController::setup_process()

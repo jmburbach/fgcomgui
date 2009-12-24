@@ -27,6 +27,7 @@
 #include <QIntValidator>
 #include <QFileDialog>
 #include <QDir>
+#include <QCheckBox>
 
 #include <limits>
 
@@ -66,8 +67,29 @@ namespace FGComGui {
 		connect(m_fgfs_port_edit, SIGNAL(textEdited(const QString&)),
 				this, SLOT(handle_fgfs_port_change(const QString&)));
 
-		//
+		m_systray_checkbox = new QCheckBox(this);
+		m_systray_checkbox->setChecked(model.get_systray_enabled());
+#if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_LINUX
+		m_systray_checkbox->setText("Run in the system tray");
+#elif FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
+		m_systray_checkbox->setText("Run in the notification area");
+#endif
+		connect(m_systray_checkbox, SIGNAL(toggled(bool)),
+				&model, SLOT(set_systray_enabled(bool)));
+		connect(&model, SIGNAL(systray_enabled_changed(bool)),
+				m_systray_checkbox, SLOT(setChecked(bool)));
+		
+		//--fgcomgui group
 	
+		QGroupBox* fgcomgui_box = new QGroupBox(this);
+		fgcomgui_box->setTitle("FGComGui");
+
+		QVBoxLayout* fgcomgui_layout = new QVBoxLayout;
+		fgcomgui_layout->addWidget(m_systray_checkbox);
+		fgcomgui_box->setLayout(fgcomgui_layout);
+
+		//-- fgcom_group
+
 		QGroupBox* fgcom_box = new QGroupBox(this);
 		fgcom_box->setTitle("FGCom");
 
@@ -98,7 +120,7 @@ namespace FGComGui {
 		fgcom_layout->addLayout(config_layout);
 		fgcom_box->setLayout(fgcom_layout);
 
-		//
+		//--flightgear group
 
 		QGroupBox* fgfs_box = new QGroupBox(this);
 		fgfs_box->setTitle("FlightGear");
@@ -114,6 +136,7 @@ namespace FGComGui {
 		//
 
 		QVBoxLayout* main_layout = new QVBoxLayout;
+		main_layout->addWidget(fgcomgui_box);
 		main_layout->addWidget(fgcom_box);
 		main_layout->addWidget(fgfs_box);
 		setLayout(main_layout);
