@@ -88,6 +88,11 @@ namespace FGComGui {
 			   	m_settings->value("fgfs_port", 16661).toUInt() );
 	}
 
+	bool Model::get_systray_enabled() const
+	{
+		return m_settings->value("systray_enabled", true).toBool();
+	}
+
 	void Model::set_fgcom_mode(RunMode new_mode)
 	{
 		if (get_fgcom_mode() == new_mode)
@@ -140,6 +145,15 @@ namespace FGComGui {
 
 		change_setting("fgfs_port", new_port);
 		emit fgfs_port_changed(new_port);
+	}
+
+	void Model::set_systray_enabled(bool b)
+	{
+		if (get_systray_enabled() == b)
+			return;
+
+		change_setting("systray_enabled", b);
+		emit systray_enabled_changed(b);
 	}
 
 	void Model::change_setting(const QString& name, const QVariant& value)

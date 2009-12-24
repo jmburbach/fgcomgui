@@ -41,6 +41,7 @@ namespace FGComGui {
 			float get_fgcom_input_volume() const;
 			QString get_fgcom_server() const;
 			unsigned short get_fgfs_port() const;
+			bool get_systray_enabled() const;
 			static Model& get_instance();
 
 		signals:
@@ -50,6 +51,7 @@ namespace FGComGui {
 			void fgcom_input_volume_changed(float v);
 			void fgcom_output_volume_changed(float v);
 			void fgfs_port_changed(unsigned short port);
+			void systray_enabled_changed(bool enabled);
 			
 		public slots:
 			void set_fgcom_mode(RunMode mode);
@@ -58,6 +60,7 @@ namespace FGComGui {
 			void set_fgcom_output_volume(float v);
 			void set_fgcom_input_volume(float v);
 			void set_fgfs_port(unsigned short port);
+			void set_systray_enabled(bool enabled);
 
 		private:
 			void change_setting(const QString& name, const QVariant& value);
