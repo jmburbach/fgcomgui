@@ -19,6 +19,7 @@
 #include "configdialog.hpp"
 #include "model.hpp"
 #include "aboutdialog.hpp"
+#include "fgcominfo.hpp"
 
 #include <iostream>
 
@@ -107,12 +108,19 @@ namespace FGComGui {
 		m_start_button->setFocus(Qt::OtherFocusReason);
 		m_stop_button->setEnabled(false);
 		m_stop_action->setEnabled(false);
+
+		m_fgcom_info = new FGComInfo;
+		QTimer* info_timer = new QTimer(this);
+		info_timer->start(1000);
+		connect(info_timer, SIGNAL(timeout()),
+				this, SLOT(handle_update_info_timer()));
 	}
 
 	AppViewController::~AppViewController()
 	{
 		m_process->kill();
 		m_process->waitForFinished();
+		delete m_fgcom_info;
 	}
 
 	void AppViewController::closeEvent(QCloseEvent* event)
@@ -207,6 +215,7 @@ namespace FGComGui {
 				m_configure_action->setEnabled(false);
 				m_stop_action->setEnabled(true);
 				m_stop_button->setEnabled(true);
+				m_fgcom_info->reset();
 				//statusBar()->showMessage("fgcom is starting", 3000);
 				break;
 			case QProcess::Running:
@@ -225,11 +234,13 @@ namespace FGComGui {
 
 	void AppViewController::handle_process_output()
 	{
-		QByteArray output = m_process->readAll();
-		if (output.isEmpty())
-			return;
-		m_process_output->insertPlainText(output);
-		m_process_output->moveCursor(QTextCursor::End);
+		QString line = m_process->readLine();
+		while (!line.isEmpty()) {
+			m_process_output->insertPlainText(line);
+			m_process_output->moveCursor(QTextCursor::End);
+			m_fgcom_info->interpret_fgcom_output(line);
+			line = m_process->readLine();
+		}
 	}
 
 	void AppViewController::handle_process_finished(int code, QProcess::ExitStatus status)
@@ -334,7 +345,7 @@ namespace FGComGui {
 
 		m_systray = new QSystemTrayIcon(this);
 		m_systray->setIcon(appicon);
-		m_systray->setToolTip("FGComGui");
+		m_systray->setToolTip("fgcomgui - not started");
 		m_systray->setContextMenu(m_systray_menu);
 
 		if (Model::get_instance().get_systray_enabled()) {
@@ -415,6 +426,52 @@ namespace FGComGui {
 		QString path = "file:///" + d.absoluteFilePath("docs/README.html");
 #endif
 		QDesktopServices::openUrl(QUrl(path));
+	}
+
+	void AppViewController::handle_update_info_timer()
+	{
+		QProcess::ProcessState state = m_process->state();
+		if (state != QProcess::Running) {
+			m_systray->setToolTip("<b>Status</b>: not started");
+		}
+		else {
+			QString conn = m_fgcom_info->get_station_connected() ? "connected" : "not connected";
+			const QString& name = m_fgcom_info->get_station_name();
+			const QString& freq = m_fgcom_info->get_station_frequency();
+			const QString& icao = m_fgcom_info->get_station_icao();
+			const QString& type = m_fgcom_info->get_station_type();
+			const QString& dist = m_fgcom_info->get_station_distance();
+
+			QString tip = QString(
+				"<p style=\"white-space: pre;\">"
+				"<b>status</b>: %1"
+				)
+				.arg(conn);
+
+			if (m_fgcom_info->get_station_connected()) {
+				tip += QString(
+					"\n<b>frequency</b>: %2"
+					)
+					.arg(freq);
+			
+				if (!name.isEmpty()) {
+					tip += QString(
+						"\n<b>station</b>: %1 (%2)\n"
+						"<b>type</b>: %3\n"
+						"<b>range</b>: %4km (%5nm)"
+						)
+						.arg(name)
+						.arg(icao)
+						.arg(type)
+						.arg(dist.toFloat())
+						.arg(QString::number(dist.toFloat() * 0.539956803, 'f', 1));
+				}
+			}
+
+			tip += "</p>";
+
+			m_systray->setToolTip(tip);
+		}
 	}
 
 } // namespace FGComGui
