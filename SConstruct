@@ -67,6 +67,7 @@ sources = [
 	"linux/build/configdialog.cpp",
 	"linux/build/aboutdialog.cpp",
 	"linux/build/licensedialog.cpp",
+	"linux/build/fgcominfo.cpp"
 ]
 
 # program headers that need moc'd

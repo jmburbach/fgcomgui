@@ -43,6 +43,7 @@ namespace FGComGui {
 	class LicenseDialog;
 	class ConfigDialog;
 	class AboutDialog;
+	class FGComInfo;
 
 } // namespace FGComGui
 #endif // __fgcomgui_hpp__
