@@ -430,35 +430,60 @@ namespace FGComGui {
 
 	void AppViewController::handle_update_info_timer()
 	{
+		static const QString header(
+			"<html>"
+				"<head>"
+					"<style type=\"text/css\">"
+						"p {"
+							"white-space: pre;"
+							"padding: 0;"
+							"margin: 1px;"
+						"}"
+						"p.center_bold {"
+							"margin-left: auto;"
+							"margin-right: auto;"
+							"text-align: center;"
+							"font-weight: bold;"
+							"padding: 10px;"
+							"margin-bottom: 5px;"
+							"margin-top: 5px"
+						"}"
+						"div.centered {"
+							"margin-left: auto;"
+							"margin-right: auto;"
+						"}"
+					"</style>"
+				"</head>"
+				"<body>"
+					"<div class=\"centered\"><p class=\"center_bold\">FGComGui</p></div>"
+		);
+		static const QString footer(
+				"</body>"
+			"</html>"
+		);
+
 		QProcess::ProcessState state = m_process->state();
 		if (state != QProcess::Running) {
-			m_systray->setToolTip("<b>Status</b>: not started");
+			m_systray->setToolTip(header + "<p><b>status</b>: not started</p>" + footer);
 		}
 		else {
-			QString conn = m_fgcom_info->get_station_connected() ? "connected" : "not connected";
+			const QString status = m_fgcom_info->get_station_connected() ? "connected" : "not connected";
 			const QString& name = m_fgcom_info->get_station_name();
 			const QString& freq = m_fgcom_info->get_station_frequency();
 			const QString& icao = m_fgcom_info->get_station_icao();
 			const QString& type = m_fgcom_info->get_station_type();
 			const QString& dist = m_fgcom_info->get_station_distance();
 
-			QString tip = QString(
-				"<p style=\"white-space: pre;\">"
-				"<b>status</b>: %1"
-				)
-				.arg(conn);
+			QString tip = QString("<p><b>status</b>: %1</p>").arg(status);
 
 			if (m_fgcom_info->get_station_connected()) {
-				tip += QString(
-					"\n<b>frequency</b>: %2"
-					)
-					.arg(freq);
+				tip += QString("<p><b>frequency</b>: %2</p>").arg(freq);
 			
 				if (!name.isEmpty()) {
 					tip += QString(
-						"\n<b>station</b>: %1 (%2)\n"
-						"<b>type</b>: %3\n"
-						"<b>range</b>: %4km (%5nm)"
+						"<p><b>station</b>: %1 (%2)</p>"
+						"<p><b>type</b>: %3</p>"
+						"<p><b>range</b>: %4km (%5nm)</p>"
 						)
 						.arg(name)
 						.arg(icao)
@@ -468,9 +493,7 @@ namespace FGComGui {
 				}
 			}
 
-			tip += "</p>";
-
-			m_systray->setToolTip(tip);
+			m_systray->setToolTip(header + tip + footer);
 		}
 	}
 
