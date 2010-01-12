@@ -111,7 +111,7 @@ namespace FGComGui {
 
 		m_fgcom_info = new FGComInfo;
 		QTimer* info_timer = new QTimer(this);
-		info_timer->start(1000);
+		info_timer->start(2000);
 		connect(info_timer, SIGNAL(timeout()),
 				this, SLOT(handle_update_info_timer()));
 	}
@@ -475,10 +475,11 @@ namespace FGComGui {
 			const QString& dist = m_fgcom_info->get_station_distance();
 
 			QString tip = QString("<p><b>status</b>: %1</p>").arg(status);
+			
+			if (!freq.isEmpty()) 
+				tip += QString("<p><b>frequency</b>: %1</p>").arg(freq);
 
 			if (m_fgcom_info->get_station_connected()) {
-				tip += QString("<p><b>frequency</b>: %2</p>").arg(freq);
-			
 				if (!name.isEmpty()) {
 					tip += QString(
 						"<p><b>station</b>: %1 (%2)</p>"
