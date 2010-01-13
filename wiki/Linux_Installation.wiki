@@ -34,5 +34,28 @@ sudo make install
 
 = Installing FGComGui =
 == Getting The Source ==
+The fgcomgui source code is available from svn, run the following command in a terminal to retrieve it.
+{{{
+svn co http://fgcomgui.googlecode.com/svn/trunk/ fgcomgui
+}}}
+
 == Satisfying Dependencies ==
+FGComGui's major dependency is Qt4, which is quite common, and often already installed on many Linux systems. You will need to have installed the development files for Qt4, available as *libqt4-dev* on many Linux distributions. The only other dependency is SCons, the current build system used to build the program.
+
 == Building And Installing ==
+Currently fgcomgui uses a simple SCons build system, which should work out of the box on Ubuntu like systems. You may need to tweak the paths for the Qt4 files and programs on other systems.
+
+To build and install fgcomgui, run the following command from the fgcomgui directory.
+{{{
+scons
+sudo scons install
+}}}
+
+By default fgcomgui will install to /usr/local, but can be changed by using prefix option when running scons. For example.
+
+{{{
+scons prefix=/wherever/you/want
+sudo scons install
+}}}
+
+The installation includes a .desktop file and icons as is usual for the major Linux desktops. These may not be found when installing to non-standard directories however.
