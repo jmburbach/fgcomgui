@@ -1,5 +1,7 @@
 #summary Building and installing fgcom/fgcomgui in Linux
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
 This guide will walk you through installing fgcom and fgcomgui on a Linux system.
 
