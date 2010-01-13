@@ -22,12 +22,17 @@ Now in a terminal, from inside the fgcom directory, apply the patch with the fol
 patch -p0 < fgcomgui-fgcom_MMDDYYYY.diff
 }}}
 
-== Building FGCOM ==
+== Satisfying Dependencies ==
 FGCOM includes most of its dependencies already, but by default there are two external you must satisfy to build FGCOM. These are [http://plib.sourceforge.net plib] and [http://www.simgear.org simgear]. The FGComGui patch for FGCOM removes the dependency on simgear however, so you only need satisfy the plib dependency. Both of these are available on many Linux distributions as plib-dev and simgear-dev for example, or they can be installed from source if necessary.
 
-Once you have installed the necessary dependencies we can build and install fgcom. In a terminal, inside the fgcom directory, run the following commands to build and install fgcom. Installs to /usr/local by default.
+== Building And Installing ==
+Once you have installed the necessary dependencies we can build and install fgcom. In a terminal, from inside the fgcom/src directory, run the following commands to build and install fgcom. Installs to /usr/local by default.
 {{{
-cd src
 make
 sudo make install
 }}}
+
+= Installing FGComGui =
+== Getting The Source ==
+== Satisfying Dependencies ==
+== Building And Installing ==
