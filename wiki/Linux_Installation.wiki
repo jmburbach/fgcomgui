@@ -7,7 +7,7 @@ This guide will walk you through installing fgcom and fgcomgui on a Linux system
 You will first need to install the command line FGCOM program. For FGCOM to work properly with FGComGui the functionality and bug fix patch *must* be applied before building and install FGCOM. Even if you do not plan on using FGComGui, it is *highly* recommended you apply this patch to your FGCOM, as it contains bug fixes and extra functionality.
 
 === Getting The Source ===
-You can obtain the FGCOM source code via svn by running the following command in a terminal.
+You can obtain the FGCOM source code via svn by running the following command in a terminal. This will download and save the source code into a directory call fgcom.
 {{{
 svn co https://appfgcom.svn.sourceforge.net/svnroot/fgcom/trunk fgcom
 }}}
