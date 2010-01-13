@@ -43,7 +43,7 @@ svn co http://fgcomgui.googlecode.com/svn/trunk/ fgcomgui
 FGComGui's major dependency is Qt4, which is quite common, and often already installed on many Linux systems. You will need to have installed the development files for Qt4, available as *libqt4-dev* on many Linux distributions. The only other dependency is SCons, the current build system used to build the program.
 
 == Building And Installing ==
-Currently fgcomgui uses a simple SCons build system, which should work out of the box on Ubuntu like systems. You may need to tweak the paths for the Qt4 files and programs on other systems.
+Currently fgcomgui uses a simple SCons build system, which should work out of the box on Ubuntu like systems. You may need to tweak the paths for the Qt4 files and programs in the SConstruct file on other systems.
 
 To build and install fgcomgui, run the following command from the fgcomgui directory.
 {{{
@@ -58,4 +58,4 @@ scons prefix=/wherever/you/want
 sudo scons install
 }}}
 
-The installation includes a .desktop file and icons as is usual for the major Linux desktops. These may not be found when installing to non-standard directories however.
+When installing to non-standard directories however, it should be noted that desktops will most likely not be able to find the installed .desktop file and icons, and not be available in your menu or other places.
