@@ -14,7 +14,7 @@ You can obtain the FGCOM source code via svn by running the following command in
 svn co https://appfgcom.svn.sourceforge.net/svnroot/fgcom/trunk fgcom
 }}}
 
-== Applying The FGComGui Patch For FGCOM ==
+== Patching FGCOM ==
 After you have retrieved the fgcom source from svn it is time to download and apply the FGComGui functionality and bug fix patch. It is available from the Downloads page, and is named *fgcomgui-fgcom_MMDDYYYY.diff*, with MMDDYYYY being the date of the patch. Download the newest one available and save it in the fgcom directory created when you checked out the fgcom source code.
 
 Now in a terminal, from inside the fgcom directory, apply the patch with the following command.
