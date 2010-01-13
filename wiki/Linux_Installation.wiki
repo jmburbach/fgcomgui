@@ -8,13 +8,13 @@ This guide will walk you through installing fgcom and fgcomgui on a Linux system
 = Installing FGCOM =
 You will first need to install the command line FGCOM program. For FGCOM to work properly with FGComGui the functionality and bug fix patch *must* be applied before building and install FGCOM. Even if you do not plan on using FGComGui, it is *highly* recommended you apply this patch to your FGCOM, as it contains bug fixes and extra functionality.
 
-=== Getting The Source ===
+== Getting The Source ==
 You can obtain the FGCOM source code via svn by running the following command in a terminal. This will download and save the source code into a directory call fgcom.
 {{{
 svn co https://appfgcom.svn.sourceforge.net/svnroot/fgcom/trunk fgcom
 }}}
 
-=== Applying The FGComGui Patch For FGCOM ===
+== Applying The FGComGui Patch For FGCOM ==
 After you have retrieved the fgcom source from svn it is time to download and apply the FGComGui functionality and bug fix patch. It is available from the Downloads page, and is named *fgcomgui-fgcom_MMDDYYYY.diff*, with MMDDYYYY being the date of the patch. Download the newest one available and save it in the fgcom directory created when you checked out the fgcom source code.
 
 Now in a terminal, from inside the fgcom directory, apply the patch with the following command.
@@ -22,7 +22,7 @@ Now in a terminal, from inside the fgcom directory, apply the patch with the fol
 patch -p0 < fgcomgui-fgcom_MMDDYYYY.diff
 }}}
 
-=== Building FGCOM ===
+== Building FGCOM ==
 FGCOM includes most of its dependencies already, but by default there are two external you must satisfy to build FGCOM. These are [http://plib.sourceforge.net plib] and [http://www.simgear.org simgear]. The FGComGui patch for FGCOM removes the dependency on simgear however, so you only need satisfy the plib dependency. Both of these are available on many Linux distributions as plib-dev and simgear-dev for example, or they can be installed from source if necessary.
 
 Once you have installed the necessary dependencies we can build and install fgcom. In a terminal, inside the fgcom directory, run the following commands to build and install fgcom. Installs to /usr/local by default.
