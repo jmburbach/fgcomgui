@@ -1,4 +1,7 @@
 #summary Installation instructions Windows operating systems.
+
+<wiki:toc max_depth="1" />
+
 = Introduction =
 
 There are packages for windows available from the [http://code.google.com/p/fgcomgui/downloads/list downloads] tab. The packages use the *_fgcomgui-win32-bundle-mmddyear.zip_* naming scheme, mmddyear being the date of the release. These packages contain everything needed for using fgcom on a windows os.
@@ -19,7 +22,7 @@ Basic installation steps:
 
 = What Next? =
 
-FGComGui comes with some basic documentation explaining the different parts of the interface, as well as how to configure FlightGear to communicate with it. To view the documentation, start fgcomgui and select _HTML Docs_ from the _Help_ menu.
+FGComGui comes with some basic documentation explaining the different parts of the interface, as well as how to configure FlightGear to communicate with it. To view the documentation, start fgcomgui and select _Documentation_ from the _Help_ menu.
 
 = Extraction Notes =
 
