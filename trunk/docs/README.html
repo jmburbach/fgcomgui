@@ -34,9 +34,12 @@
 				margin-left: 30px;
 				padding: 0px;
 			}
-			h2,h4 {
+			h2 {
 				margin-top: 25px;
 				margin-bottom: 5px;
+			}
+			h4 {
+				margin: 3px;
 			}
 			p {
 				margin: 0px;
@@ -106,13 +109,25 @@
 								only one server currently).</li>
 							<li>The port you configured flightgear to send data on, see flightgear section. Does not
 								normally need to be changed.</li>
+							<li>Enable or disable fgcomgui running in the system tray / notification area.</li>
 						</ol>
-						<h4>*settings can only be modifed while fgcom is not running.</h4>
+						<p>By default, FGComGui will display an icon in the system tray(notification area). It can be
+						enabled/disabled from the configuration window. On Linux, with system tray enabled, closing the 
+						window does not exit the application, and it will continue running in the tray. On Windows, with system
+						tray enabled, closing the window will exit FGComGui, instead use the minimize button to close only the
+						window and continue running in the system tray / notifcation area. With system tray disabled, on both
+						platforms, behavior will be that of a normal window, as expected.</p>
 						<br />
-						<p>FGComGui will display an icon in the system tray(notification area). On Linux, closing the window does not
-						exit the application, it will continue running in the tray. On Windows, closing the window will exit FGComGui,
-						use the minimize button to close only the window and continue running in the notifcation area. Right click the
-					   	system tray icon to get a context menu with options to show/hide, start/stop fgcom, configure, or exit FGComGui.</p>
+						<p>Right clicking on the icon will bring up a context menu with options to show, hide, start, stop, configure,
+						or exit FGComGui.</p>
+						<img src="images/fgcomgui_systray.png" />
+						<br />
+						<p>Hovering the cursor over the icon will show an informative tooltip about current state of fgcom[gui]</p>
+						<img src="images/fgcomgui_tooltip.png" />
+						<br />
+						<h4>* Settings can only be modifed while fgcom is not running.</h4>
+						<h4>* Windows does not support rich text tooltips, tooltip will look different on this platform.</h4>
+						<br />
 					</div>
 				</div>
 
