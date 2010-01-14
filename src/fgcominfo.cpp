@@ -24,12 +24,12 @@ namespace FGComGui {
 	FGComInfo::FGComInfo()
 	{
 		reset();
-		m_frequency_rx.setPattern("Selected frequency: (\\d*.\\d+)\n");
-		m_call_0_rx.setPattern("Call 0 (accepted|answered|timed out)\n");
-		m_hangup_rx.setPattern("Hanging up call 0\n");
-		m_rejected_rx.setPattern("Call rejected by remote\n");
+		m_frequency_rx.setPattern("Selected frequency: (\\d*.\\d+)\r?\n");
+		m_call_0_rx.setPattern("Call 0 (accepted|answered|timed out)\r?\n");
+		m_hangup_rx.setPattern("Hanging up call 0\r?\n");
+		m_rejected_rx.setPattern("Call rejected by remote\r?\n");
 		m_station_info_rx.setPattern(
-				"Airport (.*) \\((.*) (.*) at (\\d*.\\d+) MHz\\) is in range \\(\\s*(\\d*.\\d+) km\\)\n");
+				"Airport (.*) \\((.*) (.*) at (\\d*.\\d+) MHz\\) is in range \\(\\s*(\\d*.\\d+) km\\)\r?\n");
 	}
 
 	FGComInfo::~FGComInfo()

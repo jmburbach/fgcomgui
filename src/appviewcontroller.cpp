@@ -323,7 +323,7 @@ namespace FGComGui {
 		m_settings_menu->addAction(m_configure_action);
 
 		QMenu* help_menu = menuBar()->addMenu("&Help");
-		help_menu->addAction("&HTML Docs", this, SLOT(handle_html_docs()));
+		help_menu->addAction("&Documentation", this, SLOT(handle_html_docs()));
 		help_menu->addSeparator();
 		help_menu->addAction("&About FGComGui", this, SLOT(handle_about_fgcomgui()));
 	}
@@ -430,6 +430,7 @@ namespace FGComGui {
 
 	void AppViewController::handle_update_info_timer()
 	{
+#if FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_LINUX
 		static const QString header(
 			"<html>"
 				"<head>"
@@ -437,16 +438,19 @@ namespace FGComGui {
 						"p {"
 							"white-space: pre;"
 							"padding: 0;"
-							"margin: 1px;"
+							"margin-left: 1px;"
+							"margin-right: 1px;"
+							"margin-top: 1px;"
+							"margin-bottom: 1px;"
 						"}"
 						"p.center_bold {"
 							"margin-left: auto;"
 							"margin-right: auto;"
-							"text-align: center;"
+							"margin-top: 5px;"
+							"margin-bottom: 5px;"
 							"font-weight: bold;"
 							"padding: 10px;"
-							"margin-bottom: 5px;"
-							"margin-top: 5px"
+							"text-align: center;"
 						"}"
 						"div.centered {"
 							"margin-left: auto;"
@@ -496,6 +500,48 @@ namespace FGComGui {
 
 			m_systray->setToolTip(header + tip + footer);
 		}
+
+#elif FGCOM_GUI_PLATFORM == FGCOM_GUI_PLATFORM_MSWIN
+		
+		// apparently windows cannot do rich text tooltips...
+		
+		const QString header("FGComGui\n\n");
+		QProcess::ProcessState state = m_process->state();
+
+		if (state != QProcess::Running) {
+			m_systray->setToolTip(header + "Status: not started");
+		}
+		else {
+			const QString status = m_fgcom_info->get_station_connected() ? "connected" : "not connected";
+			const QString& name = m_fgcom_info->get_station_name();
+			const QString& freq = m_fgcom_info->get_station_frequency();
+			const QString& icao = m_fgcom_info->get_station_icao();
+			const QString& type = m_fgcom_info->get_station_type();
+			const QString& dist = m_fgcom_info->get_station_distance();
+
+			QString tip = QString("Status: %1").arg(status);
+			
+			if (!freq.isEmpty()) 
+				tip += QString("\nFrequency: %1").arg(freq);
+
+			if (m_fgcom_info->get_station_connected()) {
+				if (!name.isEmpty()) {
+					tip += QString(
+						"\nStation: %1 (%2)\n"
+						"Type: %3\n"
+						"Range: %4km (%5nm)"
+						)
+						.arg(name)
+						.arg(icao)
+						.arg(type)
+						.arg(dist.toFloat())
+						.arg(QString::number(dist.toFloat() * 0.539956803, 'f', 1));
+				}
+			}
+
+			m_systray->setToolTip(header + tip);
+		}
+#endif
 	}
 
 } // namespace FGComGui

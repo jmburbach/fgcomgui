@@ -23,11 +23,11 @@ namespace FGComGui {
 #define FGCOM_GUI_PLATFORM_MSWIN 1
 
 #if defined(LINUX)
-#define FGCOM_GUI_PLATFORM FGCOM_GUI_PLATFORM_LINUX
+#	define FGCOM_GUI_PLATFORM FGCOM_GUI_PLATFORM_LINUX
 #elif defined(WINDOWS)
-#define FGCOM_GUI_PLATFORM FGCOM_GUI_PLATFORM_MSWIN
+#	define FGCOM_GUI_PLATFORM FGCOM_GUI_PLATFORM_MSWIN
 #else
-#error "unsupported platform!"
+#	error "unsupported platform!"
 #endif
 
 	enum RunMode {
